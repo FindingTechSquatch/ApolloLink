@@ -65,10 +65,10 @@
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=dir.getfName()%> <%=dir.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=dir.getUus()%></p>
                                 </div>
-                                <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -90,17 +90,17 @@
                     <ul class="nav">
                         <li class="nav-item nav-category">Main Menu</li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpLst.jsp">
+                            <a class="nav-link" href="grpBaseCont">
                                 <i class="menu-icon typcn typcn-document-text"></i>
                                 <span class="menu-title">My Groups</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpAdd.jsp">
+                            <a class="nav-link" href="objCrtrCont?act=schl">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>
-                        </li>
+                        </li><!--
                         <li class="nav-item">
                             <a class="nav-link" href="">
                                 <i class="menu-icon typcn typcn-th-large-outline"></i>
@@ -112,7 +112,7 @@
                                 <i class="menu-icon typcn typcn-bell"></i>
                                 <span class="menu-title">Event Results</span>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
                 <!-- partial -->
@@ -134,7 +134,7 @@
                             <div class="col-md-6 grid-margin stretch-card">
                                 <div class="card card-clickable">
                                     <div class="card-body">
-                                        <form action="grpBaseCont" method="post">
+                                        <form action="grpBaseCont" method="get">
                                             <input type="hidden" name="grpAct" value ="cg">
                                             <input type="hidden" name="grp" value="<%=g.getGID()%>">
                                             <input type="submit" class="card-clickable-title card-title mb-0" value="<%=g.getGrpName()%>">

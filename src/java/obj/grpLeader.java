@@ -29,6 +29,11 @@ public class grpLeader implements Serializable{
         this.ldrSchlYr = ldrSchlYr;
         this.ldrTitle = ldrTitle;
     }
+    public grpLeader(String ldrFName, String ldrLName, String ldrTitle) {
+        this.ldrFName = ldrFName;
+        this.ldrLName = ldrLName;
+        this.ldrTitle = ldrTitle;
+    }
     
     public int getLID() {
         return LID;

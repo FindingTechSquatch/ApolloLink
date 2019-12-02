@@ -187,7 +187,7 @@ public class loginCont extends HttpServlet {
             //<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
             if (errString == null || errString.equals("")) {
                 session.setAttribute("hd2", "hidden");
-                url = "/formCont";
+                url = "/grpBaseCont";
                 //<<<<<<<<<<<<<<<< Object Creation >>>>>>>>>>>>>>>>
                 uDir newDir = new uDir();
                 newDir.setfName(fn);
@@ -201,7 +201,9 @@ public class loginCont extends HttpServlet {
                 newDir.setSchls(insertSchool);
                 newDir = dbSignIn.newUser(newDir);
                 if (newDir == null) {
-                    url = "err500.jsp";
+                    url = "/err500.jsp";
+                } else {
+                    session.setAttribute("usr", newDir.touBase());
                 }
             } else if (errString.equalsIgnoreCase("zz")) {
                 url = "/addSchl.jsp";
@@ -285,6 +287,10 @@ public class loginCont extends HttpServlet {
                     //uDir lgnDir = dbSignIn.getDirectorfromUS(frstUsr);
                     url = "/grpBaseCont";
                     session.setAttribute("usr", frstUsr); //setting the session user to only contain username/password info
+                    session.removeAttribute("hd1");
+                    session.removeAttribute("hd2");
+                    session.removeAttribute("er1");
+                    session.removeAttribute("er2");
 
                 } else {
                     url = "/index.jsp";
@@ -355,6 +361,10 @@ public class loginCont extends HttpServlet {
                     
                     url = "/evtBaseCont";
                     session.setAttribute("usr", frstUsr); //setting the session user to only contain username/password info
+                    session.removeAttribute("hd1");
+                    session.removeAttribute("hd2");
+                    session.removeAttribute("er1");
+                    session.removeAttribute("er2");
 
                 } else {
                     url = "/evtlgn.jsp";

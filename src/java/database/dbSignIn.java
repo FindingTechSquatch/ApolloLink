@@ -110,14 +110,14 @@ public class dbSignIn {
             db2.setAutoCommit(false);
 
             //<<<<<<<<<<<<<<<< INSERT INTO U_CRED >>>>>>>>>>>>>>>>
-            String sql = "INSERT INTO SCM.U_CRED (USR_H, PSWD_H) VALUES (?,?)";
+            String sql = "INSERT INTO SCM.U_CRED (EMAIL, PSWD_H) VALUES (?,?)";
             ps = db2.prepareStatement(sql);
             ps.setString(1, u.getHus());
             ps.setString(2, u.getHpw());
             ps.executeUpdate();
 
             //<<<<<<<<<<<<<<<< GET UID FROM U_CRED >>>>>>>>>>>>>>>>
-            sql = "SELECT UID FROM SCM.U_CRED WHERE USR_H = ? AND PSWD_H = ?";
+            sql = "SELECT UID FROM SCM.U_CRED WHERE EMAIL = ? AND PSWD_H = ?";
             ps = db2.prepareStatement(sql);
             ps.setString(1, u.getHus());
             ps.setString(2, u.getHpw());
@@ -160,7 +160,7 @@ public class dbSignIn {
                 if (db2 != null) {
                     db2.rollback();
                     //<<<<<<<<<<<<<<<< INSERT INTO U_CRED >>>>>>>>>>>>>>>>
-                    String sql = "DELETE FROM SCM.U_CRED WHERE USR_H = ? AND PSWD_H = ?";
+                    String sql = "DELETE FROM SCM.U_CRED WHERE EMAIL = ? AND PSWD_H = ?";
                     ps = db2.prepareStatement(sql);
                     ps.setString(1, u.getHus());
                     ps.setString(2, u.getHpw());

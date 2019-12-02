@@ -7,6 +7,7 @@ package obj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import obj.*;
 
 /**
  *
@@ -34,6 +35,12 @@ public class uDir extends uDetail implements Serializable{
         this.schls = schls;
     }
     
-    
+    public uBase touBase() {
+        uBase u = new uBase();
+        u.setHpw(this.getHpw());
+        u.setHus(this.getHus());
+        u.setUus(this.getUus());
+        return u;
+    }
     
 }
