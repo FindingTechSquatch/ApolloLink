@@ -161,7 +161,7 @@ public class getObjs {
             db2.setAutoCommit(false);
 
             //<<<<<<<<<<<<<<<< Get All School Info >>>>>>>>>>>>>>>>
-            String sql = "SELECT * from SCM.L_DETAIL JOIN SCM.X_GID_LID on SCM.L_DETAIL.LID = SCM.X_GID_LID.LID WHERE SCM.X_GID_LID.LID = ?";
+            String sql = "SELECT * from SCM.L_DETAIL JOIN SCM.X_GID_LID on SCM.L_DETAIL.LID = SCM.X_GID_LID.LID WHERE SCM.X_GID_LID.GID = ?";
             sql += " AND ((SCM.L_DETAIL.STRT_DTE <= CURRENT TIMESTAMP AND SCM.L_DETAIL.END_DTE >= CURRENT TIMESTAMP) OR (";
             sql += "SCM.L_DETAIL.STRT_DTE <= CURRENT TIMESTAMP AND SCM.L_DETAIL.END_DTE IS NULL))";
             ps = db2.prepareStatement(sql);

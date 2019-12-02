@@ -13,7 +13,9 @@
     ArrayList<obj.Registration> upcomingEvents = (ArrayList) session.getAttribute("upcomingEvents");
     ArrayList<obj.Registration> pastEvents = (ArrayList) session.getAttribute("pastEvents");
     LinkedHashMap<Integer, Event> evtPass = (LinkedHashMap<Integer, Event>) session.getAttribute("evtPass");
-
+    ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+    ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,10 +71,10 @@
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=dir.getfName()%> <%=dir.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=dir.getUus()%></p>
                                 </div>
-                                <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -94,17 +96,17 @@
                     <ul class="nav">
                         <li class="nav-item nav-category">Main Menu</li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpLst.jsp">
+                            <a class="nav-link" href="grpBaseCont">
                                 <i class="menu-icon typcn typcn-document-text"></i>
                                 <span class="menu-title">My Groups</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpAdd.jsp">
+                            <a class="nav-link" href="objCrtrCont?act=schl">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>
-                        </li>
+                        </li><!--
                         <li class="nav-item">
                             <a class="nav-link" href="">
                                 <i class="menu-icon typcn typcn-th-large-outline"></i>
@@ -116,7 +118,7 @@
                                 <i class="menu-icon typcn typcn-bell"></i>
                                 <span class="menu-title">Event Results</span>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
                 <div class="main-panel">
@@ -126,8 +128,8 @@
                             <div class="col-md-12 grid-margin">
                                 <div class="card card-clickable">
                                     <div class="card-body">
-                                        <form action="grpPages" method="post">
-                                            <input type="hidden" name="grp" value="000">
+                                        <form action="regBaseCont" method="post">
+                                            <input type="hidden" name="grp" value="<%=grpPass.getGID()%>">
                                             <input type="submit" class="card-clickable-title card-title mb-0" value="Register for Upcoming Events">
                                         </form>
                                     </div>
@@ -141,11 +143,21 @@
                                     <div class="card-body">
                                         <h4 class="card-title mb-0"> Group Information </h4>
                                         <div class="topcorner" id="edtGrpNfo">
-                                            <a style="border-radius: 0px 0px 0px 4px;" >Edit</a>
+                                            <a style="border-radius: 0px 0px 0px 4px;" id="edtGrpNfotxt">Edit</a>
                                         </div>
-
+                                        <div class="alert" ${hd1}>
+                                            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                                            <ul>
+                                                <% for (String e : er1) {%>
+                                                <li>
+                                                    <%=e%>
+                                                </li>
+                                                <% }%>
+                                            </ul>
+                                        </div>
                                         <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="grpBaseCont" method="post">
+                                                <input type="hidden" name="grpAct" value="eg">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Name</span></td>
@@ -153,12 +165,13 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Type</span></td>
-                                                        <td><select class="input grpInfo" type="select" disabled="true" id="edtGrpTp" name="grpTyp" value="<%=grpPass.getGrpType()%>">
-                                                                <option value="Marching Band">Marching Band</option>
-                                                                <option value="Choir">Choir</option>
-                                                                <option value="Orchestra">Orchestra</option>
-                                                                <option value="Jazz Band">Jazz Band</option>
-                                                                <option value="Concert Band">Concert Band</option>
+                                                        <td><select class="input grpInfo" type="select" disabled="true" id="edtGrpTp" name="grpTyp">
+                                                                <%for(String s : grpTyp) {%>
+                                                                <%if(s.equalsIgnoreCase(grpPass.getGrpType())) {%>
+                                                                <option value="<%=s%>" selected><%=s%></option>
+                                                                <%} else {%>
+                                                                <option value="<%=s%>"><%=s%></option>
+                                                                <% } }%>
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -179,27 +192,46 @@
                                     <div class="card-body d-flex flex-column">
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Group Leaders</h4>
-                                            <div class="topcorner">
-                                                <a style="border-radius: 0px 0px 0px 4px;">Edit</a>
-                                            </div>
+                                            <div class="topcorner" id="edtLdrNfo">
+                                            <a style="border-radius: 0px 0px 0px 4px;" id="edtLdrNfotxt">Edit</a>
+                                        </div>
+                                            <div class="alert" ${hd2}>
+                                            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                                            <ul>
+                                                <% for (String e : er2) {%>
+                                                <li>
+                                                    <%=e%>
+                                                </li>
+                                                <% }%>
+                                            </ul>
+                                        </div>
                                             <div class="card-list d-flex flex-column flex-lg-row">
-                                                <form action="grpPages" method="post">
+                                                <form action="grpBaseCont" method="post">
+                                                    <input type="hidden" name="grpAct" value="el">
                                                     <table>
                                                         <tr>
                                                             <th class="card-li-title grpShrt">First Name</th>
                                                             <th class="card-li-title grpShrt">Last Name</th>
                                                             <th class="card-li-title grpLng">Title</th>
                                                         </tr>
+                                                        <% int i = 0; %>
                                                         <% for (grpLeader l : grpPass.getLdrs()) {%>
                                                         <tr>
-                                                            <td><input class="grpInput" type="text" disabled="true" name="ldrFNAME01" value="<%=l.getLdrFName()%>"</td>
-                                                            <td><input class="grpInput" type="text" disabled="true" name="ldrLNAME" value="<%=l.getLdrLName()%>"</td>
-                                                            <td><input class="grpInput" type="text" disabled="true" name="ldrTITLE" value="<%=l.getLdrTitle()%>"</td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(i+1)%>" name="ldrFNAME0<%=(i+1)%>" value="<%=l.getLdrFName()%>"</td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(i+1)%>" name="ldrLNAME0<%=(i+1)%>" value="<%=l.getLdrLName()%>"</td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(i+1)%>" name="ldrTITLE0<%=(i+1)%>" value="<%=l.getLdrTitle()%>"</td>
                                                     </tr>
+                                                    <% i++; %>
                                                     <% }%>
+                                                    <% for(int j = i; j < 3; j++) {%>
+                                                    <tr>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(j+1)%>" name="ldrFNAME0<%=(j+1)%>" </td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(j+1)%>" name="ldrLNAME0<%=(j+1)%>" </td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(j+1)%>" name="ldrTITLE0<%=(j+1)%>" </td>
+                                                    </tr>
+                                                    <%}%>
                                                 </table>
-                                                <button class="btn btn-dark btn-fw">Add</button>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
+                                                <input type="submit" class="btn btn-dark btn-fw" value="Save" id="edtLdrNfobtn" hidden>
                                             </form>
                                         </div>
                                     </div>
@@ -217,7 +249,7 @@
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
                                     <form action="grpBaseCont" method="post">
                                         <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
+                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
                                     </form>
                                     <%}%>
 
@@ -235,7 +267,7 @@
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
                                     <form action="grpBaseCont" method="post">
                                         <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
+                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
                                     </form>
                                     <%}%>
 

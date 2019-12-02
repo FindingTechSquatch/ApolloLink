@@ -4,7 +4,15 @@
     Author     : McKayleigh Polenske
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
+<%
+    ArrayList<obj.Event> availableEvents = (ArrayList<obj.Event>) session.getAttribute("availableEvents");
+    LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap  = (LinkedHashMap<Integer, ArrayList<timeBlock>>) session.getAttribute("timeBlockMap");
+    ArrayList<LocalDate> availableEventDates = (ArrayList<LocalDate>) session.getAttribute("availableEventDates");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -112,152 +120,91 @@
                 <!-- partial -->
                 <div class="main-panel">
                     <div class="content-wrapper">
+                        <%for(LocalDate l : availableEventDates) {%>
                         <div class="row page-title-header">
                             <div class="col-12">
                                 <div class="page-header">
-                                    <h4 class="page-title">10/12/19</h4>
+                                    <h4 class="page-title"><%=l.format(DateTimeFormatter.ofPattern("MM/dd/YY"))%></h4>
                                 </div>
                             </div>
                         </div>
                         <!-- Page Title Header Ends-->
                         <div class="row">
-                            <div class="col-md-3 grid-margin stretch-card">
+                            <%for(Event e : availableEvents) {%>
+                            <%if(l.equals(e.getStrtDteTm().toLocalDate())) {%>
+                            <div class="col-md-4 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="topcheck">
-                                            <input class="input" type="checkbox" id="events" name="event1">
-                                            <label for="events">Event1</label>
+                                        <div class="row">
+                                            <h4 class="card-title mb-0"> <%=e.getName()%></h4>
+                                            <div class="card-list d-flex flex-column flex-lg-row">
+                                                <ul class="card-ul">
+                                                    <li>
+                                                        <span class="card-li-title">Host:</span> <%=e.getHost()%>
+                                                    </li>
+                                                    <li>
+                                                        <span class="card-li-title">City:</span> <%=e.getCity()%>
+                                                    </li>
+                                                    <li>
+                                                        <span class="card-li-title">State:</span> <%=e.getState()%>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <h4 class="card-title mb-0"> Title </h4>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Host:</span> Host1
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">City:</span> Omaha
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">State:</span> NE
-                                                </li>
-                                            </ul>
+                                        <div class ="row">
+                                            <div class="col-md-12 grid-margin stretch-card">
+                                                <select class="input grpInfo" type="select" id="edtGrpTp" name="grpTyp">
+                                                    
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Title </h4>
-                                        <div class="topcorner">
-                                            <div class="form-group">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="checkbox" class="form-check-input">
-                                                    </label>
-                                                </div>
+                                                    <option value="xx" selected>------------------</option>
+                                                    <%for(timeBlock t : timeBlockMap.get(e.getEID())) {%>
+                                                    <option value="<%=t.getStrt_Tme().format(DateTimeFormatter.ofPattern("HH:mm"))%>"><%=t.toString()%></option>
+                                                    <%}%>
+                                                    <option value="11"  >Test 1</option>
+                                                    <option value="22"  >Test 2</option>
+                                                    <option value="33"  disabled>test 3</option>
 
+                                                </select>
                                             </div>
                                         </div>
 
-
-
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Host:</span> Host2
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">City:</span> Omaha
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">State:</span> NE
-                                                </li>
-                                            </ul>
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Title </h4>
-                                        <div class="topcorner" input type="checkbox">
-                                            <input type="checkbox" class="btn btn-dark btn-fw" value="choose">
-                                        </div>
+                            
+                            
 
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Host:</span> Host3
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">City:</span> Omaha
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">State:</span> NE
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Title </h4>
-                                        <div class="topcorner" input type="checkbox">
-                                            <input type="checkbox" class="btn btn-dark btn-fw" value="choose">
-                                        </div>
-
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Host:</span> Host4
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">City:</span> Omaha
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">State:</span> NE
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- content-wrapper ends -->
-                            <!-- partial:partials/_footer.html -->
-                            <footer class="footer">
-                                <div class="container-fluid clearfix">
-                                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright &#169; 2019 FindingTechSquatch. A division of the TRYHard Lab. All rights reserved.</span>
-                                    </span>
-                                </div>
-                            </footer>
-                            <!-- partial -->
                         </div>
-                        <!-- main-panel ends -->
+                            <%}%>
+                            <%}%>
+                        <%}%>
+                        <!-- content-wrapper ends -->
+                        <!-- partial:partials/_footer.html -->
+                        <footer class="footer">
+                            <div class="container-fluid clearfix">
+                                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright &#169; 2019 FindingTechSquatch. A division of the TRYHard Lab. All rights reserved.</span>
+                                </span>
+                            </div>
+                        </footer>
+                        <!-- partial -->
                     </div>
-                    <!-- page-body-wrapper ends -->
+                    <!-- main-panel ends -->
                 </div>
-                <!-- container-scroller -->
-                <!-- plugins:js -->
-                <script src="assets/js/vendor/vendor.bundle.base.js"></script>
-                <script src="assets/js/vendor/vendor.bundle.addons.js"></script>
-                <!-- endinject -->
-                <!-- Plugin js for this page-->
-                <!-- End plugin js for this page-->
-                <!-- inject:js -->
-                <script src="assets/js/vendor/off-canvas.js"></script>
-                <script src="assets/js/vendor/misc.js"></script>
-                <!-- endinject -->
-                <!-- Custom js for this page-->
-                <script src="assets/js/vendor/dashboard.js"></script>
-                <!-- End custom js for this page-->
-                </body>
-                </html>
+                <!-- page-body-wrapper ends -->
+            </div>
+            <!-- container-scroller -->
+            <!-- plugins:js -->
+            <script src="assets/js/vendor/vendor.bundle.base.js"></script>
+            <script src="assets/js/vendor/vendor.bundle.addons.js"></script>
+            <!-- endinject -->
+            <!-- Plugin js for this page-->
+            <!-- End plugin js for this page-->
+            <!-- inject:js -->
+            <script src="assets/js/vendor/off-canvas.js"></script>
+            <script src="assets/js/vendor/misc.js"></script>
+            <!-- endinject -->
+            <!-- Custom js for this page-->
+            <script src="assets/js/vendor/dashboard.js"></script>
+            <!-- End custom js for this page-->
+    </body>
+</html>
