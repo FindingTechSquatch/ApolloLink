@@ -5,6 +5,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
+<%
+    uEvt evt = (uEvt) session.getAttribute("evt");
+    Event event1 = (Event) session.getAttribute("event1");
+    ArrayList<obj.Registration> upcomingEvents = (ArrayList) session.getAttribute("upcomingEvents");
+    ArrayList<obj.Registration> pastEvents = (ArrayList) session.getAttribute("pastEvents");
+    LinkedHashMap<Integer, Event> evtPass = (LinkedHashMap<Integer, Event>) session.getAttribute("evtPass");
+    ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+    ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
