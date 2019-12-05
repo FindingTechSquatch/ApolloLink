@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.ArrayList,java.util.LinkedHashMap, obj.*"%>
+<%
+    uEvt evt = (uEvt) session.getAttribute("evt");
+    ArrayList<Event> mgrEvents = (ArrayList) session.getAttribute("mgrEvents");
+    LinkedHashMap<Integer,School> regSchools = (LinkedHashMap<Integer,School>) session.getAttribute("regSchools");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -53,8 +61,8 @@
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                 <div class="dropdown-header text-center">
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
-                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                    <p class="mb-1 mt-3 font-weight-semibold"><%=evt.getfName()%> <%=evt.getlName()%></p>
+                                    <p class="font-weight-light text-muted mb-0"><%=evt.getUus()%></p>
                                 </div>
                                 <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -103,44 +111,38 @@
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <!-- Page Title Header Starts-->
+                        <!--el for every month display month? -->
                         <div class="row page-title-header">
                             <div class="col-12">
                                 <div class="page-header">
-                                    <h4 class="page-title">10/12/19 - 10/13/19</h4>
+                                    <h4 class="page-title">December</h4>
                                 </div>
                             </div>
 
                         </div>
                         <!-- Page Title Header Ends-->
-
+                        <% for (Event e : mgrEvents) {%>
                         <div class="row">
                             <div class="col-md-8 grid-margin stretch-card">
                                 <div class="card card-clickable">
                                     <div class="card-body">
-                                        <form action="grpPages" method="post">
-                                            <input type="hidden" name="grp" value="001">
-                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Event #1">
+                                        <form action="evtBaseCont" method="get">
+                                            <input type="hidden" name="evtAction" value="nfo">
+                                            <input type="hidden" name="evt" value="<%=e.getEID()%>">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="<%=e.getName()%>">
                                         </form>
                                         
                                         <div class="card-list d-flex flex-column flex-lg-row">
                                             <table>
                                                 <tr>
                                                     <td><span class="card-li-title">Type:</span></td>
-                                                    <td style="padding-right: 4em"><span>Marching Band</span></td>
+                                                    <td style="padding-right: 4em"><span><%=e.getType()%></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="card-li-title">Location:</span></td>
-                                                    <td style="padding-right: 4em"><span>Omaha Burke Stadium</span></td>
+                                                    <td style="padding-right: 4em"><span><%=e.getLocTitle()%></span></td>
                                                 </tr>
                                             </table>
-                       <!--                 <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Type:</span> Marching Band
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">Location:</span> Omaha Burke Stadium
-                                                </li>
-                                            </ul>-->
                                         </div>
                                     </div>
                                 </div>
@@ -152,6 +154,7 @@
                                             <h4 class="card-title mb-0">Registered Schools</h4>
                                             <div class="card-list d-flex flex-column flex-lg-row">
                                                 <table>
+                                                    <!--update once sql statemnet is fixed-->
                                                     <tr>
                                                         <td>School 1</td>
                                                     </tr>
@@ -160,16 +163,6 @@
                                                     </tr>
                                                     
                                                 </table>
-                                                
-                                                
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    School 1
-                                                </li>
-                                                <li>
-                                                    School 2
-                                                </li>
-                                            </ul>-->
                                             </div>
                                         </div>
 
@@ -181,8 +174,8 @@
                             <div class="col-md-12 grid-margin">
                                 <div class="card card-clickable">
                                     <div class="card-body">
-                                        <form action="grpPages" method="post">
-                                            <input type="hidden" name="grp" value="000">
+                                        <form action="evtBaseCont" method="get">
+                                            <input type="hidden" name="evtAction" value="newEvt">
                                             <input type="submit" class="card-clickable-title card-title mb-0" value="Add New Event">
                                         </form>
                                         

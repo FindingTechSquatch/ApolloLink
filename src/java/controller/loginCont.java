@@ -38,7 +38,7 @@ public class loginCont extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/index.jsp";
+        String url = "/evtLst.jsp";
 
         HttpSession session = request.getSession();
 
