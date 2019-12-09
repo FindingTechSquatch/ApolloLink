@@ -4,14 +4,16 @@
     Author     : McKayleigh Polenske
 --%>
 
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
 <%
     ArrayList<obj.Event> availableEvents = (ArrayList<obj.Event>) session.getAttribute("availableEvents");
-    LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap  = (LinkedHashMap<Integer, ArrayList<timeBlock>>) session.getAttribute("timeBlockMap");
+    LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap = (LinkedHashMap<Integer, ArrayList<timeBlock>>) session.getAttribute("timeBlockMap");
     ArrayList<LocalDate> availableEventDates = (ArrayList<LocalDate>) session.getAttribute("availableEventDates");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,64 +122,123 @@
                 <!-- partial -->
                 <div class="main-panel">
                     <div class="content-wrapper">
-                        <%for(LocalDate l : availableEventDates) {%>
+                        <div class="alert" ${hd1}>
+                            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                            <ul>
+                                <% for (String e : er1) {%>
+                                <li>
+                                    <%=e%>
+                                </li>
+                                <% }%>
+                            </ul>
+                        </div>
+                        <% if (availableEvents.size() == 0) {%>
                         <div class="row page-title-header">
-                            <div class="col-12">
-                                <div class="page-header">
-                                    <h4 class="page-title"><%=l.format(DateTimeFormatter.ofPattern("MM/dd/YY"))%></h4>
+
+                            <div class="page-header">
+                                <div class="alert" style="width:100%">
+                                    <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                                    <h4>There are no events available for this group at this time. Click <a href="grpBaseCont">HERE</a> to return to home.</h4>
                                 </div>
+
                             </div>
                         </div>
-                        <!-- Page Title Header Ends-->
-                        <div class="row">
-                            <%for(Event e : availableEvents) {%>
-                            <%if(l.equals(e.getStrtDteTm().toLocalDate())) {%>
-                            <div class="col-md-4 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <h4 class="card-title mb-0"> <%=e.getName()%></h4>
-                                            <div class="card-list d-flex flex-column flex-lg-row">
-                                                <ul class="card-ul">
-                                                    <li>
-                                                        <span class="card-li-title">Host:</span> <%=e.getHost()%>
-                                                    </li>
-                                                    <li>
-                                                        <span class="card-li-title">City:</span> <%=e.getCity()%>
-                                                    </li>
-                                                    <li>
-                                                        <span class="card-li-title">State:</span> <%=e.getState()%>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class ="row">
-                                            <div class="col-md-12 grid-margin stretch-card">
-                                                <select class="input grpInfo" type="select" id="edtGrpTp" name="grpTyp">
-                                                    
-
-                                                    <option value="xx" selected>------------------</option>
-                                                    <%for(timeBlock t : timeBlockMap.get(e.getEID())) {%>
-                                                    <option value="<%=t.getStrt_Tme().format(DateTimeFormatter.ofPattern("HH:mm"))%>"><%=t.toString()%></option>
-                                                    <%}%>
-                                                    <option value="11"  >Test 1</option>
-                                                    <option value="22"  >Test 2</option>
-                                                    <option value="33"  disabled>test 3</option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-
+                        <%}%>
+                        <form action="regBaseCont" method="post">
+                            <input type="hidden" name="act" value="rg">
+                            <%for (LocalDate l : availableEventDates) {%>
+                            <div class="row page-title-header">
+                                <div class="col-12">
+                                    <div class="page-header">
+                                        <h4 class="page-title"><%=l.format(DateTimeFormatter.ofPattern("MM/dd/YY"))%></h4>
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+                            <!-- Page Title Header Ends-->
+                            <div class="row">
+                                <%for (Event e : availableEvents) {%>
+                                <%if (l.equals(e.getStrtDteTm().toLocalDate())) {%>
+                                <div class="col-md-4 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <h4 class="card-title mb-0"> <%=e.getName()%></h4>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row">
+                                                    <ul class="card-ul">
+                                                        <li>
+                                                            <span class="card-li-title">Host:</span> <%=e.getHost()%>
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-li-title">City:</span> <%=e.getCity()%>
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-li-title">State:</span> <%=e.getState()%>
+                                                        </li>
+                                                        <%if (LocalDate.now().isAfter(e.getRegEarlyStrtDte()) && LocalDate.now().isBefore(e.getRegEarlyEndDte())) {%>
+                                                        <li>
+                                                            <span class="card-li-title">Registration Period:</span> Early Registration
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegEarlyCst()%>
+                                                        </li>
+                                                        <%} else if (LocalDate.now().isAfter(e.getRegRegStrtDte()) && LocalDate.now().isBefore(e.getRegRegEndDte())) {%>
+                                                        <li>
+                                                            <span class="card-li-title">Registration Period:</span> Regular Registration
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegRegCst()%>
+                                                        </li>
+                                                        <%} else if (LocalDate.now().isAfter(e.getRegLtStrtDte()) && LocalDate.now().isBefore(e.getRegLtEndDte())) {%>
+                                                        <li>
+                                                            <span class="card-li-title">Registration Period:</span> Late Registration
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegLtCst()%>
+                                                        </li>
+                                                        <%}%>
+                                                    </ul>
+                                                </div>    
+                                            </div>
+                                            <div class ="row">
+                                                <div class="col-md-12 grid-margin stretch-card">
+                                                    <select class="input grpInfo" type="select" id="edtGrpTp" name="<%=e.getEID()%>">
+                                                        <option value="zz:zz" selected>------------------</option>
+                                                        <%for (timeBlock t : timeBlockMap.get(e.getEID())) {%>
+                                                        <%if (t.isTaken()) {%>
+                                                        <option value="<%=t%>" disabled><%=t.toString()%></option>
+                                                        <% } else {%>
+                                                        <option value="<%=t%>"><%=t.toString()%></option>
+                                                        <% } %>
+                                                        <%}%>
+                                                    </select>
+                                                </div>
+                                            </div>
 
-                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <%}%>
+                                <%}%>
+                                <%}%>
+                            </div>
+                            <% if (availableEvents.size() > 0) {%>
+                            <div class="row">
+                                <div class="col-md-12 grid-margin">
+                                    <div class="card card-clickable">
+                                        <div class="card-body">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Contine to Performance Information">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <%}%>
-                            <%}%>
-                        <%}%>
+                        </form>
                         <!-- content-wrapper ends -->
                         <!-- partial:partials/_footer.html -->
                         <footer class="footer">

@@ -6,6 +6,7 @@
 package controller;
 
 import database.dbSignIn;
+import database.getObjs;
 import database.reg;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +44,7 @@ public class regBaseCont extends HttpServlet {
         String action = request.getParameter("act");
         if (action == null) {
             action = "nn"; //new, not char
-
+            session.setAttribute("hd1", "hidden");
         }
         uBase usr = (uBase) session.getAttribute("usr");
         if (usr == null) {
@@ -53,32 +54,90 @@ public class regBaseCont extends HttpServlet {
         } else {
             if (action.equalsIgnoreCase("nn")) {
                 try {
+                    
                     uDir dir = dbSignIn.getDirectorfromUS(usr);
                     Group grpPass;
                     grpPass = (Group) session.getAttribute("grpPass");
                     ArrayList<Event> availableEvents = reg.getAvailableEventsFromGID(grpPass.getGID());
                     ArrayList<LocalDate> availableEventDates = new ArrayList<>();
                     LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap = new LinkedHashMap<>();
-                    
+                    ArrayList<timeBlock> timeBlockArray = new ArrayList<>();
 
                     for (Event e : availableEvents) {
                         LocalDateTime tempTime;
-                        ArrayList<timeBlock> timeBlockArray = new ArrayList<>();
+
                         tempTime = e.getStrtDteTm();
-                        if(!availableEventDates.contains(e.getStrtDteTm().toLocalDate())){
+                        if (!availableEventDates.contains(e.getStrtDteTm().toLocalDate())) {
                             availableEventDates.add(e.getStrtDteTm().toLocalDate());
                         }
                         while (tempTime.isBefore(e.getEndDteTm())) {
-                            timeBlockArray.add(new timeBlock(tempTime, tempTime.plusMinutes(e.getBlckSize())));
+                            timeBlockArray.add(new timeBlock(tempTime, tempTime.plusMinutes(e.getBlckSize()), getObjs.getAvailableTimeBlockFromEIDTime(e.getEID(), tempTime)));
 
                             tempTime = tempTime.plusMinutes(e.getBlckSize());
                         }
                         timeBlockMap.put(e.getEID(), timeBlockArray);
                     }
-                    
+
+                    for (timeBlock t : timeBlockArray) {
+
+                    }
+
                     session.setAttribute("availableEvents", availableEvents);
                     session.setAttribute("timeBlockMap", timeBlockMap);
-                    session.setAttribute("availableEventDates",availableEventDates);
+                    session.setAttribute("availableEventDates", availableEventDates);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                    url = "/index.jsp";
+                    session.invalidate();
+                    session = request.getSession();
+                }
+            } else if (action.equalsIgnoreCase("rg")) {
+                try {
+                    session.setAttribute("hd1", "hidden");
+                    uDir dir = dbSignIn.getDirectorfromUS(usr);
+                    Group grpPass;
+                    grpPass = (Group) session.getAttribute("grpPass");
+                    ArrayList<Event> availableEvents = (ArrayList<Event>) session.getAttribute("availableEvents");
+                    LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap = (LinkedHashMap<Integer,ArrayList<timeBlock>>) session.getAttribute("timeBlockMap");
+                    LinkedHashMap<Integer, timeBlock> regEvents = new LinkedHashMap<Integer, timeBlock>();
+
+                    for (Event e : availableEvents) {
+                        Object temp = (Object) request.getParameter(String.valueOf(e.getEID()));
+                        if (temp != null) {
+                            try {
+                                String tempString = temp.toString();
+                                timeBlock tempTB = new timeBlock();
+                                if (tempString.equalsIgnoreCase("zz:zz")) {
+
+                                } else {
+                                    ArrayList<timeBlock> tempTBAL = timeBlockMap.get(e.getEID());
+                                    for(timeBlock t : tempTBAL) {
+                                        if(t.toString().equalsIgnoreCase(tempString)){
+                                            tempTB = t;
+                                        }
+                                    }
+                                    regEvents.put(e.getEID(), tempTB);
+                                }
+                                
+                            } catch (Exception ex) {
+                                System.out.println(ex);
+                                url = "/regBaseCont";
+                            }
+                        }
+
+                    }
+                    
+                    if(regEvents.size()> 0){
+                        session.setAttribute("regEvents", regEvents);
+                        url = "/evtPrf.jsp";
+                    } else {
+                         session.setAttribute("hd1", "");
+                        ArrayList<String> lgError1 = new ArrayList();
+                        session.setAttribute("er1", lgError1);
+                        lgError1.add("No Events were chosen.");
+                        session.setAttribute("er1", lgError1);
+                        url = "/uEvtLst.jsp";
+                    }
                 } catch (Exception ex) {
                     System.out.println(ex);
                     url = "/index.jsp";

@@ -42,6 +42,7 @@
                         <img src="assets/images/logo/grad/Black_Grad_Logo3_2.png" alt="logo" /> </a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center">
+                    <h2> Performance Information </h2>
                     <!-- TODO
                     <form class="ml-auto search-form d-none d-md-block" action="#">
                         <div class="form-group">
@@ -116,135 +117,157 @@
                         <!-- Page Title Header Ends-->
 
                         <div class="row">
-                            <div class="col-md-12 grid-margin stretch-card">
+                            <div class="col-md-6 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-0"> Performance Times </h4>
-
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table padding="15">
-                                                    <tr>
-                                                        <th padding-right="50"><span class="card-li-title">Event</span></th>
-                                                        <th padding="15"><span class="card-li-title">Date</span></th>
-                                                        <th padding="15"><span class="card-li-title">Time Block</span></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 1</span></td>
-                                                        <td><span>October 12, 2019</span></td>
-                                                        <td><select name="tmeBlk">
-                                                                <option value="tme1">10:00 am - 10:15 am</option>
-                                                                <option value="tme2">10:15 am - 10:30 am</option>
-                                                                <option value="tme3">10:45 am - 11:00 am</option>
-                                                                <option value="tme4">11:00 am - 1:15 am</option>
-                                                                <option value="tme5">11:15 am - 11:30 am</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 2</span></td>
-                                                        <td><span>October 24, 2019</span></td>
-                                                        <td><select name="tmeBlk">
-                                                                <option value="tme1">10:00 am - 10:15 am</option>
-                                                                <option value="tme2">10:15 am - 10:30 am</option>
-                                                                <option value="tme3">10:45 am - 11:00 am</option>
-                                                                <option value="tme4">11:00 am - 1:15 am</option>
-                                                                <option value="tme5">11:15 am - 11:30 am</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 3</span></td>
-                                                        <td><span>November 8, 2019</span></td>
-                                                        <td><select name="tmeBlk">
-                                                                <option value="tme1">10:00 am - 10:15 am</option>
-                                                                <option value="tme2">10:15 am - 10:30 am</option>
-                                                                <option value="tme3">10:45 am - 11:00 am</option>
-                                                                <option value="tme4">11:00 am - 1:15 am</option>
-                                                                <option value="tme5">11:15 am - 11:30 am</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
-                                            </form>
-                                             
+                                        <div class="row">
+                                           <div class="d-flex flex-column flex-lg-row">
+                                            <h5 class="card-title mb-0"> Performance Title </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h5 class="card-title mb-0"> Performance Type </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h5 class="card-title mb-0"> Additional Staff </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h5 class="card-title mb-0"> Buses </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h5 class="card-title mb-0"> Trucks </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Song 1 </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Song 2 </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Song 3 </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Song 4 </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Song 5 </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                               <input class="input" type="text" name="prfTtl">
+                                            </div>            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-0"> Performance Information </h4>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table>
-                                                    <tr>
-                                                        <td><span class="card-li-title">Performance Title: </span></td>
-                                                        <td><input class="input" type="text" name="prfTtl"></td>
-                                                        <td><span class="card-li-title">Pre-Performance Announcement:</span></td>
-                                                        <td><input class="input" type="text" name="preAnn"></td>
-                                                        
-                                                        
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td  valign="top"><span class="card-li-title">Song Titles:</span></td>
-                                                        <td></td>
-                                                        <!--<td style="padding-right: 4em">
-                                                            <span>
-                                                                <ul class="card-ul">
-                                                                    <li>
-                                                                        <span class="card-li-title">Song 1</span><input class="input" type="text" name="sng1">
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="card-li-title">Song 2</span><input class="input" type="text" name="sng1">
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="card-li-title">Song 3</span><input class="input" type="text" name="sng1">
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="card-li-title">Song 4</span><input class="input" type="text" name="sng1">
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="card-li-title">Song 5</span><input class="input" type="text" name="sng1">
-                                                                    </li>
-                                                                </ul>
-                                                                    
-                                                            </span>
-                                                        </td>-->
-                                                        <td valign="top"><span class="card-li-title">Post-Performance Announcement:</span></td>
-                                                        <td valign="top"><input class="input" type="text" name="posAnn"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right"><span class="card-li-title">Song 1</span></td>
-                                                        <td><input class="input" type="text" name="sng1"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right"><span class="card-li-title">Song 2</span></td>
-                                                        <td><input class="input" type="text" name="sng2"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right"><span class="card-li-title">Song 3</span></td>
-                                                        <td><input class="input" type="text" name="sng3"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right"><span class="card-li-title">Song 4</span></td>
-                                                        <td><input class="input" type="text" name="sng4"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right"><span class="card-li-title">Song 5</span></td>
-                                                        <td><input class="input" type="text" name="sng5"></td>
-                                                    </tr>
-                                                </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
-                                            </form>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Pre-Performance Announcement </h6>
+                                            </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfTtl"></textarea>
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                            <h6 class="card-title mb-0"> Post-Performance Announcement </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfTtl"></textarea>
+                                            </div>              
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>  
+                        <div class="row">
+                                <div class="col-md-12 grid-margin">
+                                    <div class="card card-clickable">
+                                        <div class="card-body">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Review Registration">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->

@@ -165,8 +165,14 @@ public class evtBaseCont extends HttpServlet {
                             
                             //finish error validation
                         session.setAttribute("event1", event1);
-                    }
-                } catch (Exception ex) {
+                    } catch (Exception ex) {
+                    System.out.println(ex);
+                    url = "/index.jsp";
+                    session.invalidate();
+                    //session = request.getSession();
+                }
+                } 
+                }catch (Exception ex) {
                     System.out.println(ex);
                     url = "/index.jsp";
                     session.invalidate();
