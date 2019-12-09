@@ -99,29 +99,24 @@
                                 <span class="menu-title">Add Event</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">
-                                <i class="menu-icon typcn typcn-th-large-outline"></i>
-                                <span class="menu-title">Upcoming Events</span>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
                 <!-- partial -->
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <!-- Page Title Header Starts-->
-                        <!--el for every month display month? -->
+                        <% for (Event e : mgrEvents) {%>
+                        <!--el for every month display month instead? -->
                         <div class="row page-title-header">
                             <div class="col-12">
                                 <div class="page-header">
-                                    <h4 class="page-title">December</h4>
+                                    <h4 class="page-title"><%=e.getStrtDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%></h4>
                                 </div>
                             </div>
 
                         </div>
                         <!-- Page Title Header Ends-->
-                        <% for (Event e : mgrEvents) {%>
+                        
                         <div class="row">
                             <div class="col-md-8 grid-margin stretch-card">
                                 <div class="card card-clickable">
@@ -170,6 +165,7 @@
                                 </div>
                             </div>
                         </div>
+                        <% }%>                        
                         <div class="row">
                             <div class="col-md-12 grid-margin">
                                 <div class="card card-clickable">
