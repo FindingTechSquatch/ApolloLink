@@ -41,40 +41,51 @@ public class evtBaseCont extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         //String url = "/evtLst.jsp";
          HttpSession session = request.getSession();
 
         String url = "/evtLst.jsp";
         String action = request.getParameter("evtAction");
-        if (action == null) {
+        if (action == null) 
+        {
             action = "new";
 
         }
         uBase usr = (uBase) session.getAttribute("usr");
-        if (usr == null) {
+        if (usr == null) 
+        {
             url = "/loginCont";
             session.invalidate();
-        } else {
-            if (action.equalsIgnoreCase("new")) {
+        } 
+        else 
+        {
+            if (action.equalsIgnoreCase("new")) 
+            {
                 url = "/evtLst.jsp";
-                try {
+                session.setAttribute("hd1", "hidden");
+                session.setAttribute("hd2", "hidden");
+                
+                try 
+                {
                     uEvt evt = dbSignIn.getEvtManagerFromUS(usr);
                     ArrayList<Event> mgrEvents = evt.getEvts();
-                    LinkedHashMap<Integer, School> regSchools = new LinkedHashMap<>();
-                    for (int i = 0; i < evt.getEvts().size(); i++) 
-                    {
-                        //update once select statement in getRegistrationsFromEID is fixed
+                    //LinkedHashMap<Integer, School> regSchools = new LinkedHashMap<>();
+                    //for (int i = 0; i < evt.getEvts().size(); i++) 
+                    //{
+                        
+//                update once select statement in getRegistrationsFromEID is fixed
 //                        for (int j = 0; j < evt.getEvts().get(i).getRegs().size(); j++) 
 //                        {
 //                            
 //                               Event reg = getObjs.getRegistrationsFromEID(evt.getEID());
 //                        }
-                    }
+                   // }
 
                     session.setAttribute("evt", evt);
                     session.setAttribute("mgrEvents", mgrEvents);
-                    session.setAttribute("regSchools", regSchools);
+                    //session.setAttribute("regSchools", regSchools);
                 } catch (Exception ex) {
                     System.out.println(ex);
                     url = "/index.jsp";
@@ -82,7 +93,7 @@ public class evtBaseCont extends HttpServlet {
                     session = request.getSession();
                 }
 
-            } 
+            }
             else if (action.equalsIgnoreCase("nfo")) 
             {
                 url = "/evtNfo.jsp";
@@ -90,7 +101,7 @@ public class evtBaseCont extends HttpServlet {
                 try 
                 {
                     int eventID;
-                    eventID = Integer.parseInt(request.getParameter("event"));
+                    eventID = Integer.parseInt(request.getParameter("evt"));
                     if (eventID <= 0) 
                     {
                         url = "/index.jsp";
@@ -119,10 +130,10 @@ public class evtBaseCont extends HttpServlet {
                 }
 
             } 
-            else if (action.equalsIgnoreCase("newEvt")) 
+            else if (action.equalsIgnoreCase("editEvt1")) 
             {
                 url = "/evtNfo.jsp";
-                uDir dir = dbSignIn.getDirectorfromUS(usr);
+                uEvt evt = dbSignIn.getEvtManagerFromUS(usr);
                 ArrayList<String> lgError1 = new ArrayList();
                 session.setAttribute("er1", lgError1);
                 try {
@@ -156,32 +167,48 @@ public class evtBaseCont extends HttpServlet {
                             double regRegCst;
                             double regLtCst;
                             
+                            String errString = "";
+                            
                             evtNm = request.getParameter("evtNm");
                             evtTyp = request.getParameter("evtTyp");
                             evtHost = request.getParameter("evtHost");
                             //strtDteTme = request.getParameter("strtDteTme");
                             //endDteTime
                             //blkSze
-                            
-                            //finish error validation
-                        session.setAttribute("event1", event1);
-                    } catch (Exception ex) {
-                    System.out.println(ex);
-                    url = "/index.jsp";
-                    session.invalidate();
-                    //session = request.getSession();
-                }
-                } 
-                }catch (Exception ex) {
-                    System.out.println(ex);
-                    url = "/index.jsp";
-                    session.invalidate();
-                    //session = request.getSession();
-                }
-            }
-            //more?
-        }
+                             //<<<<<<<<<<<<<<<< Validation >>>>>>>>>>>>>>>>
 
+                            session.setAttribute("er1", lgError1);
+                            
+
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                            url = "/index.jsp";
+                            session.invalidate();
+                            //session = request.getSession();
+                        }
+                    }
+                } 
+                catch (Exception ex) 
+                {
+                    System.out.println(ex);
+                    url = "/index.jsp";
+                    session.invalidate();
+                    //session = request.getSession();
+                }
+
+            } 
+            else if (action.equalsIgnoreCase("editEvt2")) 
+            {
+                url = "/evtNfo.jsp";
+                uEvt evt = dbSignIn.getEvtManagerFromUS(usr);
+                Event event1;
+                    event1 = (Event) session.getAttribute("event1");
+                session.setAttribute("event1", event1);
+
+            }
+                
+        }
+    
         getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);
@@ -198,7 +225,8 @@ public class evtBaseCont extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 
@@ -212,7 +240,8 @@ public class evtBaseCont extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 
@@ -222,7 +251,8 @@ public class evtBaseCont extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo() 
+    {
         return "Short description";
     }// </editor-fold>
 

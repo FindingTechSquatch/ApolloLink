@@ -10,12 +10,12 @@
 <%
     uEvt evt = (uEvt) session.getAttribute("evt");
     Event event1 = (Event) session.getAttribute("event1");
-    ArrayList<obj.Registration> upcomingEvents = (ArrayList) session.getAttribute("upcomingEvents");
-    ArrayList<obj.Registration> pastEvents = (ArrayList) session.getAttribute("pastEvents");
-    LinkedHashMap<Integer, Event> evtPass = (LinkedHashMap<Integer, Event>) session.getAttribute("evtPass");
-    ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
-    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
-    ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
+    //ArrayList<obj.Registration> upcomingEvents = (ArrayList) session.getAttribute("upcomingEvents");
+    //ArrayList<obj.Registration> pastEvents = (ArrayList) session.getAttribute("pastEvents");
+    //LinkedHashMap<Integer, Event> evtPass = (LinkedHashMap<Integer, Event>) session.getAttribute("evtPass");
+    //ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
+    //ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+    //ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,8 +65,8 @@
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                 <div class="dropdown-header text-center">
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
-                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                    <p class="mb-1 mt-3 font-weight-semibold"><%=evt.getfName()%> <%=evt.getlName()%></p>
+                                    <p class="font-weight-light text-muted mb-0"><%=evt.getUus()%></p>
                                 </div>
                                 <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -103,12 +103,6 @@
                                 <span class="menu-title">Add Event</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">
-                                <i class="menu-icon typcn typcn-th-large-outline"></i>
-                                <span class="menu-title">Upcoming Events</span>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
                 <!-- partial -->
@@ -118,7 +112,7 @@
                         <div class="row page-title-header">
                             <div class="col-12">
                                 <div class="page-header">
-                                    <h4 class="page-title">Marching Band (Type Goes Here)</h4>
+                                    <h4 class="page-title"></h4>
                                 </div>
                             </div>
 
@@ -133,19 +127,20 @@
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Event Information</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="evtBaseCont" method="post">
+                                                <input type="hidden" name="grpAct" value="editEvt1">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Name</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtNm" id="edtEvtNm" value="<%=event1.getName()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Host</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtHst" id="edtEvtHst" value="<%=event1.getHost()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Type</span></td>
-                                                        <td><input class="input" type="text" disabled="true" list="grpTypes" name="grpTyp">
+                                                        <td><input class="input" type="text" disabled="true" list="grpTypes" name="evtTyp" id="edtEvtTyp" value="<%=event1.getType()%>">
                                                             <datalist id="grpTypes">
                                                                 <option value="Marching Band">
                                                                 <option value="Choir">
@@ -155,15 +150,15 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Start</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtStrtDteTm" id="edtEvtStrtDteTm" value="<%=event1.getStrtDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">End</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtEndDteTm" id="edtEvtEndDteTm" value="<%=event1.getEndDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Block Size</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtBlkSz" id="edtEvtBlkSz" value="<%=event1.getBlckSize()%>"></td>
                                                     </tr>
                                                 </table>
                                                 <input type="submit" class="btn btn-dark btn-fw" value="Update">
@@ -184,23 +179,23 @@
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Location</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtLoc" id="edtEvtLoc" value="<%=event1.getLocTitle()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Address 1</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtAddr1" id="edtEvtAddr1" value="<%=event1.getAddr1()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Address 2</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtAddr2" id="edtEvtAddr2" value="<%=event1.getAddr2()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">City</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtCity" id="edtEvtCity" value="<%=event1.getCity()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">State</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtState" id="edtEvtNState" value="<%=event1.getState()%>"></td>
                                                     </tr>
                                                     
                                                 </table>
@@ -229,21 +224,21 @@
                                                     <th class="card-li-title">Cost</th>
                                                     <tr>
                                                         <td><span class="card-li-title">Early Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtEarlyStrtDte" id="edtEvtEarlyStrtDte" value="<%=event1.getRegEarlyStrtDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtEarlyEndDte" id="edtEvtEarlyEndDte" value="<%=event1.getRegEarlyEndDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtEarlyCst" id="edtEvtEarlyCst" value="<%=event1.getRegEarlyCst()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Regular Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtRegStrtDte" id="edtEvtRegStrtDte" value="<%=event1.getRegRegStrtDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtRegEndDte" id="edtEvtRegEndDte" value="<%=event1.getRegRegEndDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtRegCst" id="edtEvtRegCst" value="<%=event1.getRegRegCst()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Late Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtLateStrtDte" id="edtEvtLateStrtDte" value="<%=event1.getRegLtStrtDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtLateEndDte" id="edtEvtLateEndDte" value="<%=event1.getRegLtEndDte()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtLateCst" id="edtEvtLateCst" value="<%=event1.getRegLtCst()%>"></td>
                                                     </tr>
                                                 </table>
                                                 <input type="submit" class="btn btn-dark btn-fw" value="Update">
@@ -266,23 +261,15 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            Event 1
+                                                            School 1
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            Event 2
+                                                            School 2
                                                         </td>
                                                     </tr>
                                                 </table>
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    Event 1
-                                                </li>
-                                                <li>
-                                                    Event 2
-                                                </li>
-                                            </ul>-->
                                             </div>
                                         </div>
 
@@ -307,14 +294,6 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    Block 1
-                                                </li>
-                                                <li>
-                                                    Block 2
-                                                </li>
-                                            </ul>-->
                                             </div>
                                         </div>
 
