@@ -71,17 +71,30 @@ public class evtBaseCont extends HttpServlet {
                 {
                     uEvt evt = dbSignIn.getEvtManagerFromUS(usr);
                     ArrayList<Event> mgrEvents = evt.getEvts();
-                    //LinkedHashMap<Integer, School> regSchools = new LinkedHashMap<>();
-                    //for (int i = 0; i < evt.getEvts().size(); i++) 
-                    //{
-                        
-//                update once select statement in getRegistrationsFromEID is fixed
+                    LinkedHashMap<Integer, ArrayList<School>> regSchools = new LinkedHashMap<>();
+                    
+                    for(Event e : mgrEvents)
+                    {
+                        ArrayList<School> schl = getObjs.getRegisteredSchoolsFromEID(e.getEID());
+                        regSchools.put(e.getEID(), schl);
+                    }
+                    
+//                    for (int i = 0; i < evt.getEvts().size(); i++) 
+//                    {
+//                        //Event reg = getObjs.getRegisteredSchoolFromEID(evt.getEvts().getEID());
+//                //update once select statement in getRegistrationsFromEID is fixed
+//                        
+//                        
 //                        for (int j = 0; j < evt.getEvts().get(i).getRegs().size(); j++) 
 //                        {
 //                            
-//                               Event reg = getObjs.getRegistrationsFromEID(evt.getEID());
+//                            School reg = getObjs.getRegisteredSchoolsFromEID(evt.getEvts().get(i).getEID());
+//                        
+//                            regSchools.put(evt.getEvts().get(i).getRegs().get(j).getRID(), reg);
+//                               
+//                               
 //                        }
-                   // }
+//                    }
 
                     session.setAttribute("evt", evt);
                     session.setAttribute("mgrEvents", mgrEvents);

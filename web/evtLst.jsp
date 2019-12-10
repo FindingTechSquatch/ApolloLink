@@ -11,7 +11,7 @@
 <%
     uEvt evt = (uEvt) session.getAttribute("evt");
     ArrayList<Event> mgrEvents = (ArrayList) session.getAttribute("mgrEvents");
-    LinkedHashMap<Integer,School> regSchools = (LinkedHashMap<Integer,School>) session.getAttribute("regSchools");
+    LinkedHashMap<Integer, ArrayList<School>> regSchools = (LinkedHashMap<Integer,ArrayList<School>>) session.getAttribute("regSchools");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,13 +150,11 @@
                                             <div class="card-list d-flex flex-column flex-lg-row">
                                                 <table>
                                                     <!--update once sql statemnet is fixed-->
+                                                    <!--<% //for (School s: regSchools.get(e.getEID())) {%>
                                                     <tr>
-                                                        <td>School 1</td>
+                                                        <td><%//=s.toString()%></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>School 2</td>
-                                                    </tr>
-                                                    
+                                                    <%// }%>-->
                                                 </table>
                                             </div>
                                         </div>
@@ -165,7 +163,8 @@
                                 </div>
                             </div>
                         </div>
-                        <% }%>                        
+                        <% }%> 
+                        
                         <div class="row">
                             <div class="col-md-12 grid-margin">
                                 <div class="card card-clickable">
