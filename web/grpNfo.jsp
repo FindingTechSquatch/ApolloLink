@@ -249,7 +249,7 @@
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
                                     <form action="grpBaseCont" method="post">
                                         <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
+                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
                                     </form>
                                     <%}%>
 
@@ -267,7 +267,7 @@
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
                                     <form action="grpBaseCont" method="post">
                                         <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
+                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
                                     </form>
                                     <%}%>
 

@@ -545,5 +545,60 @@ public class getObjs {
 
         return returnList;
     }
+    public static boolean getAvailableTimeBlockFromEIDTime(int eid, LocalDateTime ldt) {
+        boolean b = false;
+        Connection db2 = getConnection();
+        
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.n");
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+            //update to get data based on EID
+            //<<<<<<<<<<<<<<<< Get All School Info >>>>>>>>>>>>>>>>
+            String sql = "SELECT COUNT(*) FROM SCM.R_DETAIL JOIN SCM.X_RID_EID ON SCM.R_DETAIL.RID = SCM.X_RID_EID.RID WHERE SCM.X_RID_EID.EID = ? AND SCM.R_DETAIL.REG_SEL_TIME_SLOT = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setInt(1, eid);
+            ps.setString(2, ldt.format(f));
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                b = (rs.getInt(1) >= 1);
+            }
+
+            //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
+            db2.commit();
+            //rs.close();
+            //ps.close();
+            //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+
+        return b;
+    }
     
 }
