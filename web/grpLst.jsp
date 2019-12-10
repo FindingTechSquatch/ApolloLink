@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="objCrtrCont?act=schl">
+                            <a class="nav-link" href=objCrtrCont?act=schl">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>

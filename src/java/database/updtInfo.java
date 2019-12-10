@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.lang.Object;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import obj.*;
 
@@ -128,6 +132,69 @@ public class updtInfo {
                 ps.executeUpdate();
 
             }
+
+            //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
+            db2.commit();
+            b = true;
+            //rs.close();
+            //ps.close();
+            //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            b = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+        return b;
+    }
+
+    public static boolean updateEventInfoFromEID1(int eid, String evtNm, String evtHost, String evtTyp, LocalDateTime strtDteTme,
+                                LocalDateTime endDteTme, String blkSze) 
+    {
+        Timestamp startTime;
+        startTime = Timestamp.valueOf(strtDteTme);
+        
+        Timestamp endTime;
+        endTime = Timestamp.valueOf(endDteTme);
+        
+        Connection db2 = getConnection();
+        boolean b = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+
+            //<<<<<<<<<<<<<<<< Get All School Info >>>>>>>>>>>>>>>>
+            String sql = "UPDATE SCM.E_DETAIL SET EVT_NAME = ?, EVT_HOST = ?, EVT_TYPE = ?, EVT_STRT = ?, EVT_END = ?, EVT_BLCKS = ? WHERE EID = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, evtNm);
+            ps.setString(2, evtHost);
+            ps.setString(3, evtTyp);
+            ps.setTimestamp(4, startTime);
+            ps.setTimestamp(5, endTime);
+            ps.setInt(3, Integer.parseInt(blkSze));
+            ps.setInt(4, eid);
+            ps.executeUpdate();
 
             //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
             db2.commit();

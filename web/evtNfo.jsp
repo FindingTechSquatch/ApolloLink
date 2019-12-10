@@ -10,12 +10,10 @@
 <%
     uEvt evt = (uEvt) session.getAttribute("evt");
     Event event1 = (Event) session.getAttribute("event1");
-    //ArrayList<obj.Registration> upcomingEvents = (ArrayList) session.getAttribute("upcomingEvents");
-    //ArrayList<obj.Registration> pastEvents = (ArrayList) session.getAttribute("pastEvents");
-    //LinkedHashMap<Integer, Event> evtPass = (LinkedHashMap<Integer, Event>) session.getAttribute("evtPass");
-    //ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
-    //ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
-    //ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
+    LinkedHashMap<Integer, ArrayList<School>> regSchools = (LinkedHashMap<Integer,ArrayList<School>>) session.getAttribute("regSchools");
+    //ArrayList<String> evtTyp = (ArrayList) session.getAttribute("evtTyp");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+    ArrayList<String> er2 = (ArrayList) session.getAttribute("er2");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +28,8 @@
         <link rel="stylesheet" href="assets/iconfonts/typicons/src/font/typicons.css">
         <link rel="stylesheet" href="assets/iconfonts/flag-icon-css/css/flag-icon.min.css">
         <link rel="stylesheet" href="assets/css/card.css">
+        <link rel="stylesheet" href="assets/css/buttons.css">
+        <link rel="stylesheet" href="assets/css/start.css">
         <!-- endinject -->
         <!-- plugin css for this page -->
         <!-- End plugin css for this page -->
@@ -68,9 +68,10 @@
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=evt.getfName()%> <%=evt.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=evt.getUus()%></p>
                                 </div>
-                                <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -98,7 +99,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpAdd.jsp">
+                            <a class="nav-link" href="evtAdd.jsp" value="addEvt">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Event</span>
                             </a>
@@ -126,42 +127,63 @@
                                     <div class="card-body d-flex flex-column">
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Event Information</h4>
+                                            <div class="topcorner" id="edtEvtNfo">
+                                            <a style="border-radius: 0px 0px 0px 4px;" id="edtEvtNfotxt">Edit</a>
+                                        </div>
+                                        <div class="alert" ${hd1}>
+                                            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                                            <ul>
+                                                <%// for (String e : er1) {%>
+                                                <li>
+                                                    <%//=e%>
+                                                </li>
+                                                <%// }%>
+                                            </ul>
+                                        </div>
                                             <div class="d-flex flex-column flex-lg-row">
                                             <form action="evtBaseCont" method="post">
-                                                <input type="hidden" name="grpAct" value="editEvt1">
+                                                <input type="hidden" name="evtAction" value="editEvt1">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Name</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtNm" id="edtEvtNm" value="<%=event1.getName()%>"></td>
+                                                        <td><input class="input evtInfo" type="text" disabled="true" name="evtNm" id="edtEvtNm" value="<%=event1.getName()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Host</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtHst" id="edtEvtHst" value="<%=event1.getHost()%>"></td>
+                                                        <td><input class="input evtInfo" type="text" disabled="true" name="evtHst" id="edtEvtHst" value="<%=event1.getHost()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Type</span></td>
-                                                        <td><input class="input" type="text" disabled="true" list="grpTypes" name="evtTyp" id="edtEvtTyp" value="<%=event1.getType()%>">
-                                                            <datalist id="grpTypes">
+                                                        <td><!--<select class="input evtInfo" type="select"  name="evtTyp" id="edtEvtTyp">
+                                                            <%//for(String e : evtTyp) {%>
+                                                                <%//if(e.equalsIgnoreCase(event1.getType())) {%>
+                                                                <option value="<%//=e%>" selected><%//=e%></option>
+                                                                <%//} else {%>
+                                                                <option value="<%//=e%>"><%//=e%></option>
+                                                                <%// } }%>
+                                                            </select>
+                                                            <!--<datalist id="evtTypes">
                                                                 <option value="Marching Band">
                                                                 <option value="Choir">
                                                                 <option value="Orchestra">
                                                             </datalist>
+                                                             list="evtTypes"-->
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Start</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtStrtDteTm" id="edtEvtStrtDteTm" value="<%=event1.getStrtDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%>"></td>
+                                                        <td><input class="input evtInfo" type="datetime-local"  name="evtStrtDteTm" id="edtEvtStrtDteTm" value="<%=event1.getStrtDteTm()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">End</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtEndDteTm" id="edtEvtEndDteTm" value="<%=event1.getEndDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm:ssa"))%>"></td>
+                                                        <td><input class="input evtInfo" type="datetime-local" disabled="true" name="evtEndDteTm" id="edtEvtEndDteTm" value="<%=event1.getEndDteTm()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Block Size</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtBlkSz" id="edtEvtBlkSz" value="<%=event1.getBlckSize()%>"></td>
+                                                        <td><input class="input evtInfo" type="text" disabled="true" name="evtBlkSz" id="edtEvtBlkSz" value="<%=event1.getBlckSize()%>"></td>
                                                     </tr>
                                                 </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Update">
+                                                <input type="submit" class="btn btn-dark btn-fw" value="Save" id="edtevtNfoBtn1" hidden>
                                             </form>
                                             </div>
                                         </div>
@@ -175,7 +197,7 @@
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Event Location</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="evtBaseCont" method="post">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Location</span></td>
@@ -187,7 +209,13 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Address 2</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtAddr2" id="edtEvtAddr2" value="<%=event1.getAddr2()%>"></td>
+                                                        <td><input class="input" type="text" disabled="true" name="evtAddr2" id="edtEvtAddr2" 
+                                                                   <% if(event1.getAddr2() == null) {%>
+                                                                        value="  "
+                                                                   <% } else { %>
+                                                                        value="<%=event1.getAddr2()%>"
+                                                                   <% } %>
+                                                                   ></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">City</span></td>
@@ -214,9 +242,9 @@
                                 <div class="card">
                                     <div class="card-body d-flex flex-column">
                                         <div class="wrapper">
-                                            <h4 class="card-title mb-0">Upcoming Events</h4>
+                                            <h4 class="card-title mb-0">Registration Information</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="evtBaseCont" method="post">
                                                 <table>
                                                     <th></th>
                                                     <th class="card-li-title">Start Date</th>
@@ -224,20 +252,20 @@
                                                     <th class="card-li-title">Cost</th>
                                                     <tr>
                                                         <td><span class="card-li-title">Early Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtEarlyStrtDte" id="edtEvtEarlyStrtDte" value="<%=event1.getRegEarlyStrtDte()%>"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtEarlyEndDte" id="edtEvtEarlyEndDte" value="<%=event1.getRegEarlyEndDte()%>"></td>
+                                                        <td><input class="input" type="date"  name="evtEarlyStrtDte" id="edtEvtEarlyStrtDte" value="<%=event1.getRegEarlyStrtDte()%>"></td>
+                                                        <td><input class="input" type="date" disabled="true" name="evtEarlyEndDte" id="edtEvtEarlyEndDte" value="<%=event1.getRegEarlyEndDte()%>"></td>
                                                         <td><input class="input" type="text" disabled="true" name="evtEarlyCst" id="edtEvtEarlyCst" value="<%=event1.getRegEarlyCst()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Regular Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtRegStrtDte" id="edtEvtRegStrtDte" value="<%=event1.getRegRegStrtDte()%>"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtRegEndDte" id="edtEvtRegEndDte" value="<%=event1.getRegRegEndDte()%>"></td>
+                                                        <td><input class="input" type="date" disabled="true" name="evtRegStrtDte" id="edtEvtRegStrtDte" value="<%=event1.getRegRegStrtDte()%>"></td>
+                                                        <td><input class="input" type="date" disabled="true" name="evtRegEndDte" id="edtEvtRegEndDte" value="<%=event1.getRegRegEndDte()%>"></td>
                                                         <td><input class="input" type="text" disabled="true" name="evtRegCst" id="edtEvtRegCst" value="<%=event1.getRegRegCst()%>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Late Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtLateStrtDte" id="edtEvtLateStrtDte" value="<%=event1.getRegLtStrtDte()%>"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="evtLateEndDte" id="edtEvtLateEndDte" value="<%=event1.getRegLtEndDte()%>"></td>
+                                                        <td><input class="input" type="date" disabled="true" name="evtLateStrtDte" id="edtEvtLateStrtDte" value="<%=event1.getRegLtStrtDte()%>"></td>
+                                                        <td><input class="input" type="date" disabled="true" name="evtLateEndDte" id="edtEvtLateEndDte" value="<%=event1.getRegLtEndDte()%>"></td>
                                                         <td><input class="input" type="text" disabled="true" name="evtLateCst" id="edtEvtLateCst" value="<%=event1.getRegLtCst()%>"></td>
                                                     </tr>
                                                 </table>
@@ -259,14 +287,20 @@
                                             <h4 class="card-title mb-0">Registered Performances</h4>
                                             <div class="card-list d-flex flex-column flex-lg-row">
                                                 <table>
+                                                    <!--update once sql statemnet is fixed-->
                                                     <tr>
-                                                        <td>
-                                                            School 1
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            School 2
+                                                        <td>    
+                                                            <% if(regSchools.containsKey(event1.getEID())) { %>
+                                                                <% for (School s: regSchools.get(event1.getEID())) {%>
+                                                                    <% if(s.getSchlName().toString() == null) {%>
+                                                                        No Registered Schools
+                                                                    <% } else { %>
+                                                                        <%=s.getSchlName().toString()%>
+                                                                    <% }%>
+                                                                <% }%>
+                                                            <% } else { %>
+                                                                No Registered Schools
+                                                            <% }%>
                                                         </td>
                                                     </tr>
                                                 </table>

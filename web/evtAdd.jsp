@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.ArrayList,java.util.LinkedHashMap, obj.*"%>
+<%
+    uEvt evt = (uEvt) session.getAttribute("evt");
+    ArrayList<Event> mgrEvents = (ArrayList) session.getAttribute("mgrEvents");
+    LinkedHashMap<Integer, ArrayList<School>> regSchools = (LinkedHashMap<Integer,ArrayList<School>>) session.getAttribute("regSchools");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -53,12 +61,13 @@
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                 <div class="dropdown-header text-center">
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
-                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                    <p class="mb-1 mt-3 font-weight-semibold"><%=evt.getfName()%> <%=evt.getlName()%></p>
+                                    <p class="font-weight-light text-muted mb-0"><%=evt.getUus()%></p>
                                 </div>
-                                <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -86,15 +95,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grpAdd.jsp">
+                            <a class="nav-link" href="evtAdd.jsp" value="addEvt">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Event</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">
-                                <i class="menu-icon typcn typcn-th-large-outline"></i>
-                                <span class="menu-title">Upcoming Events</span>
                             </a>
                         </li>
                     </ul>
@@ -106,7 +109,7 @@
                         <div class="row page-title-header">
                             <div class="col-12">
                                 <div class="page-header">
-                                    <h4 class="page-title">Marching Band (Type Goes Here)</h4>
+                                    <!--<h4 class="page-title">Marching Band (Type Goes Here)</h4>-->
                                 </div>
                             </div>
 
@@ -121,19 +124,19 @@
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Event Information</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="objCrtrCont" method="post">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Name</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtNm"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Host</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtHst"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Type</span></td>
-                                                        <td><input class="input" type="text" disabled="true" list="grpTypes" name="grpTyp">
+                                                        <td><input class="input" type="text" disabled="false" list="evtTypes" name="evtTyp">
                                                             <datalist id="grpTypes">
                                                                 <option value="Marching Band">
                                                                 <option value="Choir">
@@ -143,18 +146,18 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Start</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtStrtDteTme"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">End</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtEndDteTme"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Block Size</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtBlckSz"></td>
                                                     </tr>
                                                 </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Update">
+                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
                                             </form>
                                             </div>
                                         </div>
@@ -168,31 +171,31 @@
                                         <div class="wrapper">
                                             <h4 class="card-title mb-0">Event Location</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="objCrtrCont" method="post">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Location</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtLoc"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Address 1</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtAddr1"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Address 2</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtAddr2"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">City</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtCity"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">State</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtState"></td>
                                                     </tr>
                                                     
                                                 </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Update">
+                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
                                             </form>
                                             </div>
                                         </div>
@@ -207,9 +210,9 @@
                                 <div class="card">
                                     <div class="card-body d-flex flex-column">
                                         <div class="wrapper">
-                                            <h4 class="card-title mb-0">Upcoming Events</h4>
+                                            <h4 class="card-title mb-0">Registration Information</h4>
                                             <div class="d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                                            <form action="objCrtrCont" method="post">
                                                 <table>
                                                     <th></th>
                                                     <th class="card-li-title">Start Date</th>
@@ -217,24 +220,24 @@
                                                     <th class="card-li-title">Cost</th>
                                                     <tr>
                                                         <td><span class="card-li-title">Early Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtEarlyRegDteStrt"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtEarlyRegDteEnd"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtEarlyRegCst"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Regular Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtRegRegDteStrt"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtRegRegDteEnd"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtRegRegCst"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Late Registration</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpNm"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtLateRegDteStrt"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtLateRegDteEnd"></td>
+                                                        <td><input class="input" type="text" disabled="false" name="evtLateRegCst"></td>
                                                     </tr>
                                                 </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Update">
+                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
                                             </form>
                                             </div>
                                         </div>
@@ -242,75 +245,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
-                        <div class="row">
-                            <div class="col-md-8 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="wrapper">
-                                            <h4 class="card-title mb-0">Registered Performances</h4>
-                                            <div class="card-list d-flex flex-column flex-lg-row">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            Event 1
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Event 2
-                                                        </td>
-                                                    </tr>
-                                                </table>
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    Event 1
-                                                </li>
-                                                <li>
-                                                    Event 2
-                                                </li>
-                                            </ul>-->
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="wrapper">
-                                            <h4 class="card-title mb-0">Blocks Available</h4>
-                                            <div class="card-list d-flex flex-column flex-lg-row">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            Event 1
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Event 2
-                                                        </td>
-                                                    </tr>
-                                                </table>
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    Event 1
-                                                </li>
-                                                <li>
-                                                    Event 2
-                                                </li>
-                                            </ul>-->
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->
