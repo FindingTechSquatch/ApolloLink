@@ -35,7 +35,7 @@
         <!-- Layout styles -->
         <link rel="stylesheet" href="assets/css/vendor/style1.css">
         <!-- End Layout styles -->
-        <link rel="shortcut icon" href="assets/images/favicon.png" />
+        <link rel="shortcut icon" href="assets/images/logo/grad/Black_Grad_Logo2.png" />
     </head>
     <body>
         <div class="container-scroller">
@@ -44,7 +44,7 @@
                 <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
                     <a class="navbar-brand brand-logo" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Horizontal3_2.png" alt="logo" /> </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                    <a class="navbar-brand brand-logo-mini" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Logo3_2.png" alt="logo" /> </a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -64,9 +64,9 @@
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=dir.getfName()%> <%=dir.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=dir.getUus()%></p>
-                                </div>
+                                </div><!--
                                 <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>-->
                                 <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
                                 <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=objCrtrCont?act=schl">
+                            <a class="nav-link" href=objCrtrCont?act=ng&schl=<%=dir.getSchls().get(0).getSID()%>">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>
@@ -151,14 +151,6 @@
                                                     <td style="padding-right: 4em"><span><%=g.getGrpSize()%></span></td>
                                                 </tr>
                                             </table>
-<!--                                            <ul class="card-ul">
-                                                <li>
-                                                    <span class="card-li-title">Type:</span> Marching Band
-                                                </li>
-                                                <li>
-                                                    <span class="card-li-title">Size:</span> AA
-                                                </li>
-                                            </ul>-->
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +177,7 @@
                                                         <td><%if(r.size() < 2){%>
                                                             No Upcoming Events
                                                             <%} else {%>
-                                                            <%=r.get(1).getSelDteTm()%> - <%=upcomingEvents.get(r.get(1).getRID()).getName()%>
+                                                            <%=r.get(1).getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))%> - <%=upcomingEvents.get(r.get(1).getRID()).getName()%>
                                                             <%}%></td>
                                                     </tr>
                                                 </table>
@@ -205,14 +197,15 @@
                             </div>
                         </div>
                         <% }%>
-                        <% }%>
+                        
                         <div class="row">
                             <div class="col-md-12 grid-margin">
                                 <div class="card card-clickable">
                                     <div class="card-body">
                                         
-                                        <form action="grpPages" method="post">
-                                            <input type="hidden" name="grp" value="000">
+                                        <form action="objCrtrCont" method="post">
+                                            <input type="hidden" name="act" value="ng">
+                                            <input type="hidden" name="schl" value="<%=s.getSID()%>">
                                             <input type="submit" class="card-clickable-title card-title mb-0" value="Add New Group">
                                         </form>
                                         
@@ -221,7 +214,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+                        <% }%>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->

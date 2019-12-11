@@ -4,7 +4,14 @@
     Author     : tyleryork
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
+<%
+    uDir dir = (uDir) session.getAttribute("dir");
+    ArrayList<String> grpTyp = (ArrayList) session.getAttribute("grpTyp");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -42,7 +49,7 @@
                         <img src="assets/images/logo/grad/Black_Grad_Logo3_2.png" alt="logo" /> </a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center">
-                   
+
                     <!-- TODO
                     <form class="ml-auto search-form d-none d-md-block" action="#">
                         <div class="form-group">
@@ -113,90 +120,87 @@
                     <div class="content-wrapper">
                         <!-- Page Title Header Ends-->
                         <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card card-clickable">
-                                    <div class="card-body">
-                                        <form action="grpPages" method="post">
-                                            <input type="hidden" name="grp" value="000">
-                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Register for Upcoming Events">
-                                        </form>
-                                    </div>
+                            <div class="alert col-md-12" ${hd1}>
+                                <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                                <div class="row">
+                                <ul>
+                                    <% for (String e : er1) {%>
+                                    <li>
+                                        <%=e%>
+                                    </li>
+                                    <% }%>
+                                </ul>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Group Information </h4>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="grpPages" method="post">
+                        <form action="objCrtrCont" method="post">
+                            <input type="hidden" name="act" value="pg">
+                            <div class="row">
+                                <div class="col-md-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title mb-0"> Group Information </h4>
+                                            <div class="card-list d-flex flex-column flex-lg-row">
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Name</span></td>
-                                                        <td><input class="input" type="text"  name="grpNm"></td>
+                                                        <td><input class="input grpInfo" type="text" name="grpNm" id="edtGrpNm" maxlength="75" ></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Type</span></td>
-                                                        <td><input class="input" type="text" disabled="true" list="grpTypes" name="grpTyp">
-                                                            <datalist id="grpTypes">
-                                                                <option value="Marching Band">
-                                                                <option value="Choir">
-                                                                <option value="Orchestra">
-                                                            </datalist>
+                                                        <td><select class="input grpInfo" type="select" id="edtGrpTp" name="grpTyp" maxlength="20">
+                                                                <%for (String s : grpTyp) {%>
+                                                                <option value="<%=s%>"><%=s%></option>
+                                                                <%}%>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Size</span></td>
-                                                        <td><input class="input" type="text" disabled="true" name="grpSz"></td>
+                                                        <td><input class="input grpInfo" type="text" name="grpSz" id="edtGrpSz" maxlength="3" ></td>
                                                     </tr>
                                                 </table>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
-                                            </form>
-                                             
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="wrapper">
-                                            <h4 class="card-title mb-0">Group Leaders</h4>
-                                            <div class="card-list d-flex flex-column flex-lg-row">
-                                                <form action="grpPages" method="post">
-                                                <table>
-                                                    <tr>
-                                                        <th class="card-li-title">First Name</th>
-                                                        <th class="card-li-title">Last Name</th>
-                                                        <th class="card-li-title">Title</th>
-                                                        <th class="card-li-title">Year</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input class="input" type="text" disabled="true" name="ldrFNAME01"</td>
-                                                        <td><input class="input" type="text" disabled="true" name="ldrLNAME"</td>
-                                                        <td><input class="input" type="text" disabled="true" name="ldrTITLE"</td>
-                                                        <td><input class="input" type="text" disabled="true" list="ldrYears" name="ldrYear">
-                                                            <datalist id="ldrYears">
-                                                                <option value="Freshman">
-                                                                <option value="Softmore">
-                                                                <option value="Junior">
-                                                                <option value="Senior"
-                                                            </datalist>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                    <button class="btn btn-dark btn-fw">Add</button>
-                                                <input type="submit" class="btn btn-dark btn-fw" value="Save">
-                                            </form>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="wrapper">
+                                                <h4 class="card-title mb-0">Group Leaders</h4>
+                                                <div class="card-list d-flex flex-column flex-lg-row">
+                                                    <table>
+                                                        <tr>
+                                                            <th class="card-li-title grpShrt">First Name</th>
+                                                            <th class="card-li-title grpShrt">Last Name</th>
+                                                            <th class="card-li-title grpLng">Title</th>
+                                                        </tr>
+                                                        <% for (int j = 0; j < 3; j++) {%>
+                                                        <tr>
+                                                            <td><input class="grpInput" type="text" id="ldrFNAME0<%=(j + 1)%>" name="ldrFNAME0<%=(j + 1)%>" maxlength="30"></td>
+                                                            <td><input class="grpInput" type="text" id="ldrLNAME0<%=(j + 1)%>" name="ldrLNAME0<%=(j + 1)%>" maxlength="30"></td>
+                                                            <td><input class="grpInput" type="text" id="ldrTITLE0<%=(j + 1)%>" name="ldrTITLE0<%=(j + 1)%>" maxlength="30"></td>
+                                                        </tr>
+                                                        <%}%>
+                                                    </table>
+                                                </div>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12 grid-margin">
+                                    <div class="card card-clickable">
+                                        <div class="card-body">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Add New Group">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->

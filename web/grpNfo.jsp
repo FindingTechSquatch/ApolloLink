@@ -41,16 +41,16 @@
         <!-- Layout styles -->
         <link rel="stylesheet" href="assets/css/vendor/style1.css">
         <!-- End Layout styles -->
-        <link rel="shortcut icon" href="assets/images/favicon.png" />
+        <link rel="shortcut icon" href="assets/images/logo/grad/Black_Grad_Logo2.png" />
     </head>
     <body>
         <div class="container-scroller">
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                    <a class="navbar-brand brand-logo" href="index.html">
+                    <a class="navbar-brand brand-logo" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Horizontal3_2.png" alt="logo" /> </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                    <a class="navbar-brand brand-logo-mini" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Logo3_2.png" alt="logo" /> </a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -70,9 +70,9 @@
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=dir.getfName()%> <%=dir.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=dir.getUus()%></p>
-                                </div>
+                                </div><!--
                                 <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>-->
                                 <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
                                 <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
@@ -102,7 +102,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="objCrtrCont?act=schl">
+                            <a class="nav-link" href=objCrtrCont?act=ng&schl=<%=dir.getSchls().get(0).getSID()%>">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>
@@ -161,11 +161,11 @@
                                                 <table>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Name</span></td>
-                                                        <td><input class="input grpInfo" type="text" disabled="true" name="grpNm" id="edtGrpNm" value="<%=grpPass.getGrpName()%>"></td>
+                                                        <td><input class="input grpInfo" type="text" disabled="true" name="grpNm" id="edtGrpNm" value="<%=grpPass.getGrpName()%>" maxlength="75"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Type</span></td>
-                                                        <td><select class="input grpInfo" type="select" disabled="true" id="edtGrpTp" name="grpTyp">
+                                                        <td><select class="input grpInfo" type="select" disabled="true" id="edtGrpTp" name="grpTyp" maxlength="20">
                                                                 <%for(String s : grpTyp) {%>
                                                                 <%if(s.equalsIgnoreCase(grpPass.getGrpType())) {%>
                                                                 <option value="<%=s%>" selected><%=s%></option>
@@ -177,7 +177,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span class="card-li-title">Group Size</span></td>
-                                                        <td><input class="input grpInfo" type="text" disabled="true" name="grpSz" id="edtGrpSz" value="<%=grpPass.getGrpSize()%>"></td>
+                                                        <td><input class="input grpInfo" type="text" disabled="true" name="grpSz" id="edtGrpSz" value="<%=grpPass.getGrpSize()%>" maxlength="3"></td>
                                                     </tr>
                                                 </table>
                                                 <input type="submit" class="btn btn-dark btn-fw" value="Save" id="edtGrpNfobtn" hidden>
@@ -217,17 +217,17 @@
                                                         <% int i = 0; %>
                                                         <% for (grpLeader l : grpPass.getLdrs()) {%>
                                                         <tr>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(i+1)%>" name="ldrFNAME0<%=(i+1)%>" value="<%=l.getLdrFName()%>"</td>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(i+1)%>" name="ldrLNAME0<%=(i+1)%>" value="<%=l.getLdrLName()%>"</td>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(i+1)%>" name="ldrTITLE0<%=(i+1)%>" value="<%=l.getLdrTitle()%>"</td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(i+1)%>" name="ldrFNAME0<%=(i+1)%>" value="<%=l.getLdrFName()%>" maxlength="30"></td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(i+1)%>" name="ldrLNAME0<%=(i+1)%>" value="<%=l.getLdrLName()%>" maxlength="30"></td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(i+1)%>" name="ldrTITLE0<%=(i+1)%>" value="<%=l.getLdrTitle()%>" maxlength="30"></td>
                                                     </tr>
                                                     <% i++; %>
                                                     <% }%>
                                                     <% for(int j = i; j < 3; j++) {%>
                                                     <tr>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(j+1)%>" name="ldrFNAME0<%=(j+1)%>" </td>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(j+1)%>" name="ldrLNAME0<%=(j+1)%>" </td>
-                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(j+1)%>" name="ldrTITLE0<%=(j+1)%>" </td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrFNAME0<%=(j+1)%>" name="ldrFNAME0<%=(j+1)%>" maxlength="30"> </td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrLNAME0<%=(j+1)%>" name="ldrLNAME0<%=(j+1)%>" maxlength="30"> </td>
+                                                            <td><input class="grpInput" type="text" disabled="true" id="ldrTITLE0<%=(j+1)%>" name="ldrTITLE0<%=(j+1)%>" maxlength="30"> </td>
                                                     </tr>
                                                     <%}%>
                                                 </table>
@@ -247,10 +247,7 @@
                                     <h4 class="card-title mb-0"> Upcoming Events </h4>
                                     <%for (obj.Registration r : upcomingEvents) {%>
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
-                                    <form action="grpBaseCont" method="post">
-                                        <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
-                                    </form>
+                                    <h4 class=" reg-card-title-black mb-0 col-md-12" style="textalign: center;"><%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%></h4>
                                     <%}%>
 
                                 </div>
@@ -265,10 +262,7 @@
                                     <h4 class="card-title mb-0"> Past Events </h4>
                                     <%for (obj.Registration r : pastEvents) {%>
                                     <%String val = r.getSelDteTm().format(DateTimeFormatter.ofPattern("MM/dd/yyyy h:m:sa"));%>
-                                    <form action="grpBaseCont" method="post">
-                                        <input type="hidden" name="grp" value="<%=r.getRID()%>">
-                                        <input type="submit" class="card-clickable-title card-title mb-0" value="<%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%> ">
-                                    </form>
+                                        <h4 class=" reg-card-title-black mb-0 col-md-12" style="textalign: center;"><%=r.getSelDteTm().format(DateTimeFormatter.ofPattern("MMMM dd, uuuu hh:mm"))%> - <%=evtPass.get(r.getRID()).getFullDisplay()%></h4>
                                     <%}%>
 
 

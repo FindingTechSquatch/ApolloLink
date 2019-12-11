@@ -344,4 +344,77 @@ public class updtInfo {
         return b;
     }
 
+    public static int addGroup(int SID, String grpNm, String grpTyp, String grpSz) {
+        Connection db2 = getConnection();
+        boolean b = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int tempid = 0;
+
+        try {
+            db2.setAutoCommit(false);
+
+            //<<<<<<<<<<<<<<<< Get All School Info >>>>>>>>>>>>>>>>
+            String sql = "INSERT INTO SCM.G_DETAIL (GRP_NAME, GRP_TYPE, GRP_SIZE)  VALUES (?,?,?)";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, grpNm);
+            ps.setString(2, grpTyp);
+            ps.setInt(3, Integer.parseInt(grpSz));
+            ps.executeUpdate();
+
+            ps = null;
+            rs = null;
+            
+            sql = "SELECT SCM.G_DETAIL.GID FROM SCM.G_DETAIL WHERE GRP_NAME = ? AND GRP_TYPE = ? AND GRP_SIZE = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, grpNm);
+            ps.setString(2, grpTyp);
+            ps.setInt(3, Integer.parseInt(grpSz));
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                tempid = rs.getInt(1);
+            }
+            ps = null;
+            rs = null;
+            
+            sql = "INSERT INTO SCM.X_SID_GID (SID, GID, STRT_DTE)  VALUES (?,?, CURRENT TIMESTAMP)";
+            ps = db2.prepareStatement(sql);
+            ps.setInt(1, SID);
+            ps.setInt(2, tempid);
+            ps.executeUpdate();
+            
+            //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
+            db2.commit();
+            b = true;
+            //rs.close();
+            //ps.close();
+            //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            b = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+        return tempid;
+    }
 }

@@ -1,7 +1,7 @@
 <%-- 
     Document   : uEvtLst
     Created on : Oct 28, 2019, 12:07:38 PM
-    Author     : McKayleigh Polenske
+    Author     : Tyler York
 --%>
 
 <%@page import="java.time.LocalDateTime"%>
@@ -10,6 +10,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
 <%
+    uDir dir = (uDir) session.getAttribute("dir");
     ArrayList<obj.Event> availableEvents = (ArrayList<obj.Event>) session.getAttribute("availableEvents");
     LinkedHashMap<Integer, ArrayList<timeBlock>> timeBlockMap = (LinkedHashMap<Integer, ArrayList<timeBlock>>) session.getAttribute("timeBlockMap");
     ArrayList<LocalDate> availableEventDates = (ArrayList<LocalDate>) session.getAttribute("availableEventDates");
@@ -39,16 +40,16 @@
         <!-- Layout styles -->
         <link rel="stylesheet" href="assets/css/vendor/style1.css">
         <!-- End Layout styles -->
-        <link rel="shortcut icon" href="assets/images/favicon.png" />
+        <link rel="shortcut icon" href="assets/images/logo/grad/Black_Grad_Logo2.png" />
     </head>
     <body>
         <div class="container-scroller">
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                    <a class="navbar-brand brand-logo" href="index.html">
+                    <a class="navbar-brand brand-logo" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Horizontal3_2.png" alt="logo" /> </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                    <a class="navbar-brand brand-logo-mini" href="grpBaseCont">
                         <img src="assets/images/logo/grad/Black_Grad_Logo3_2.png" alt="logo" /> </a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -66,13 +67,13 @@
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                 <div class="dropdown-header text-center">
                                     <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
-                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
-                                </div>
+                                    <p class="mb-1 mt-3 font-weight-semibold"><%=dir.getfName()%> <%=dir.getlName()%></p>
+                                    <p class="font-weight-light text-muted mb-0"><%=dir.getUus()%></p>
+                                </div><!--
                                 <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>-->
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -104,7 +105,7 @@
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Group</span>
                             </a>
-                        </li>
+                        </li><!--
                         <li class="nav-item">
                             <a class="nav-link" href="">
                                 <i class="menu-icon typcn typcn-th-large-outline"></i>
@@ -116,7 +117,7 @@
                                 <i class="menu-icon typcn typcn-bell"></i>
                                 <span class="menu-title">Event Results</span>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
                 <!-- partial -->
