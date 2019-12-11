@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
+<%
+    ArrayList<String> allPerfTypes = (ArrayList<String>) session.getAttribute("allPerfTypes");
+    ArrayList<String> er1 = (ArrayList) session.getAttribute("er1");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -113,153 +121,194 @@
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <!-- Page Title Header Starts-->
-                        
-                        <!-- Page Title Header Ends-->
 
-                        <div class="row">
-                            <div class="col-md-6 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                           <div class="d-flex flex-column flex-lg-row">
-                                            <h5 class="card-title mb-0"> Performance Title </h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h5 class="card-title mb-0"> Performance Type </h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h5 class="card-title mb-0"> Additional Staff </h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h5 class="card-title mb-0"> Buses </h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h5 class="card-title mb-0"> Trucks </h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Song 1 </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Song 2 </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Song 3 </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Song 4 </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Song 5 </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                               <input class="input" type="text" name="prfTtl">
-                                            </div>            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Page Title Header Ends-->
+                        <div class="alert" ${hd1}>
+                            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+                            <ul>
+                                <%if(er1 != null && er1.size() > 0) {%>
+                                <% for (String e : er1) {%>
+                                <li>
+                                    <%=e%>
+                                </li>
+                                <% }%>
+                                <% }%>
+                            </ul>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Pre-Performance Announcement </h6>
+                        <form action="regBaseCont" method="post">
+                            <input type="hidden" name="act" value="rp">
+                            <div class="row">
+                                <div class="col-md-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h5 class="card-title mb-0"> Performance Title </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfTtl" maxlength="50">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h5 class="card-title mb-0"> Performance Type </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-6 grid-margin stretch-card">
+                                                    <select class="input grpInfo" type="select" id="prfTyp" name="prfTyp">
+                                                        <%for (String s : allPerfTypes) {%>
+                                                        <option value="<%=s%>"><%=s%></option>
+                                                        <%}%>
+                                                    </select>
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h5 class="card-title mb-0"> Additional Staff </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfStaff" maxlength="150">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h5 class="card-title mb-0"> Buses </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                    <select class="input grpInfo" type="select" id="prfBus" name="prfBus">
+                                                        <option value="0" selected>0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h5 class="card-title mb-0"> Equipment Trucks </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                    <select class="input grpInfo" type="select" id="prfTrk" name="prfTrk">
+                                                        <option value="0" selected>0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                </div>            
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                                <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfTtl"></textarea>
-                                            </div>            
-                                        </div>
-                                        <div class="row">
-                                            <div class="d-flex flex-column flex-lg-row">
-                                            <h6 class="card-title mb-0"> Post-Performance Announcement </h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Song 1 </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfSng1" maxlength="30">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Song 2 </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfSng2" maxlength="30">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Song 3 </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfSng3" maxlength="30">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Song 4 </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfSng4" maxlength="30">
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Song 5 </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <input class="input" type="text" name="prfSng5" maxlength="30">
+                                                </div>            
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
-                                                <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfTtl"></textarea>
-                                            </div>              
-                                        </div>
-                                        
                                     </div>
                                 </div>
                             </div>
-                        </div>  
-                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Pre-Performance Announcement </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfPre"></textarea>
+                                                </div>            
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    <h6 class="card-title mb-0"> Post-Performance Announcement </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                    <textarea class="input" cols="100" maxlength="500" rows ="5" name="prfPost"></textarea>
+                                                </div>              
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row">
                                 <div class="col-md-12 grid-margin">
                                     <div class="card card-clickable">
                                         <div class="card-body">
@@ -268,6 +317,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </form>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->

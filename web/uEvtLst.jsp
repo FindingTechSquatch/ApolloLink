@@ -181,21 +181,21 @@
                                                             <span class="card-li-title">Registration Period:</span> Early Registration
                                                         </li>
                                                         <li>
-                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegEarlyCst()%>
+                                                            <span class="card-li-title">Fee:</span> $<%=String.format("%.2f", e.getRegEarlyCst())%>
                                                         </li>
                                                         <%} else if (LocalDate.now().isAfter(e.getRegRegStrtDte()) && LocalDate.now().isBefore(e.getRegRegEndDte())) {%>
                                                         <li>
                                                             <span class="card-li-title">Registration Period:</span> Regular Registration
                                                         </li>
                                                         <li>
-                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegRegCst()%>
+                                                            <span class="card-li-title">Fee:</span> $<%=String.format("%.2f", e.getRegRegCst())%>
                                                         </li>
                                                         <%} else if (LocalDate.now().isAfter(e.getRegLtStrtDte()) && LocalDate.now().isBefore(e.getRegLtEndDte())) {%>
                                                         <li>
                                                             <span class="card-li-title">Registration Period:</span> Late Registration
                                                         </li>
                                                         <li>
-                                                            <span class="card-li-title">Fee:</span> $<%=e.getRegLtCst()%>
+                                                            <span class="card-li-title">Fee:</span> $<%=String.format("%.2f", e.getRegLtCst())%>
                                                         </li>
                                                         <%}%>
                                                     </ul>

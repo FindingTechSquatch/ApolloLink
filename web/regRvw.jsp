@@ -5,6 +5,16 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.ArrayList, java.util.LinkedHashMap, obj.*"%>
+<%
+    obj.Registration reg = (obj.Registration) session.getAttribute("reg");
+    ArrayList<obj.Event> availableEvents = (ArrayList<obj.Event>) session.getAttribute("availableEvents");
+    LinkedHashMap<obj.Event, timeBlock> regInfo = (LinkedHashMap<obj.Event, timeBlock>) session.getAttribute("regInfo");
+    School regSchlPass = (School) session.getAttribute("regSchlPass");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -113,159 +123,316 @@
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <!-- Page Title Header Starts-->
-                        
-                        <!-- Page Title Header Ends-->
 
+                        <!-- Page Title Header Ends-->
                         <div class="row">
                             <div class="col-md-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-0"> Performance Times </h4>
-                                        <div class="topcorner">
-                                            <a style="border-radius: 0px 0px 0px 4px;">Edit</a>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                                <h5 class="card-title mb-0"> Selected Events </h5>
+                                            </div>
                                         </div>
-
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table padding="15">
-                                                    <tr>
-                                                        <th padding-right="50"><span class="card-li-title">Event</span></th>
-                                                        <th padding="15"><span class="card-li-title">Date</span></th>
-                                                        <th padding="15"><span class="card-li-title">Time Block</span></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 1</span></td>
-                                                        <td><span>October 12, 2019</span></td>
-                                                        <td><span>10:00 am - 10:15 am</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 2</span></td>
-                                                        <td><span>October 24, 2019</span></td>
-                                                        <td><span>9:00 am - 9:15 am</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span>Event 3</span></td>
-                                                        <td><span>November 8, 2019</span></td>
-                                                        <td><span>12:00 pm - 12:15 pm</span></td>
-                                                    </tr>
-                                                </table>
-                                            </form>
-                                             
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Performance Information </h4>
-                                        <div class="topcorner">
-                                            <a style="border-radius: 0px 0px 0px 4px;">Edit</a>
-                                        </div>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table>
-                                                    <tr>
-                                                        <td  valign="top"><span class="card-li-title">Performance Title: </span></td>
-                                                        <td style="padding-right: 4em" valign="top"><span>Persephone</span></td>
-                                                        <td  valign="top"><span class="card-li-title">Pre-Performance Announcement:</span></td>
-                                                        <td  style="padding-right: 4em" valign="top"><span>Welcome the Waverly Vikes!</span></td>
-                                                        
-                                                        
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td  valign="top"><span class="card-li-title">Song Titles:</span></td>
-                                                        <td style="padding-right: 4em">
-                                                            <span>
-                                                                <ul class="card-ul">
-                                                                    <li>
-                                                                        Song 1
-                                                                    </li>
-                                                                    <li>
-                                                                        Song 2
-                                                                    </li>
-                                                                    <li>
-                                                                        Song 3
-                                                                    </li>
-                                                                </ul>
-                                                                    
-                                                            </span>
-                                                        </td>
-                                                        <td  valign="top"><span class="card-li-title">Post-Performance Announcement:</span></td>
-                                                        <td  valign="top"><span>And that was the Waverly Vikes!</span></td>
-                                                    </tr>
-                                                </table>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> Group Information </h4>
-                                        <div class="topcorner">
-                                            <a style="border-radius: 0px 0px 0px 4px;">Edit</a>
-                                        </div>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table>
-                                                    <td><span class="card-li-title">Group Name: </span></td>
-                                                        <td style="padding-right: 4em"><span>Waverly Vikings</span></td>
-                                                        <td><span class="card-li-title">Group Type:</span></td>
-                                                        <td><span>Marching Band</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="card-li-title">Class Size:</span></td>
-                                                        <td style="padding-right: 4em"><span>123</span></td>
-                                                    </tr>
-                                                </table>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0"> School Information </h4>
-                                        <div class="topcorner">
-                                            <a style="border-radius: 0px 0px 0px 4px;">Edit</a>
-                                        </div>
-                                        <div class="card-list d-flex flex-column flex-lg-row">
-                                            <form action="updNfoPages" method="post">
-                                                <table>
-                                                    <td><span class="card-li-title">School Name: </span></td>
-                                                        <td style="padding-right: 4em"><span>Waverly High School</span></td>
-                                                        <td><span class="card-li-title">Address 1:</span></td>
-                                                        <td><span>1234 Amberly Rd</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="card-li-title">Phone Number:</span></td>
-                                                        <td style="padding-right: 4em"><span>402-589-9632</span></td>
-                                                        <td><span class="card-li-title">Address 2:</span></td>
-                                                        <td><span>3252 rtgbn</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="card-li-title">Class Size:</span></td>
-                                                        <td style="padding-right: 4em"><span>AA</span></td>
-                                                        <td><span class="card-li-title">City:</span></td>
-                                                        <td><span>Waverly</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="card-li-title">State:</span></td>
-                                                        <td style="padding-right: 4em"><span>NE</span></td>
-                                                        <td><span class="card-li-title">ZIP Code:</span></td>
-                                                        <td><span>68462</span></td>
-                                                    </tr>
-                                                </table>
-                                            </form>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                <ul>
+                                                    <%for (Event e : availableEvents) {%>
+                                                    <%if (regInfo.get(e) != null) {%>
+                                                    <li class="reg-card-title-black"><%=e.getFullDisplay()%> - <%=regInfo.get(e).toString()%></li>
+                                                        <%}%>
+                                                        <%}%>
+                                                </ul>
+                                            </div>            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>  
+                        <div class="row">
+                            <div class="col-md-6 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h4 class="card-title mb-0"> School Information </h4>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Name </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlName()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Address Line 1 </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlAddr1()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Address Line 2 </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlAddr2()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Class </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlSize()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> City </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlCity()%></h6>
+                                            </div> 
+                                            <div class="d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> State </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getSchlST()%></h6>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Zipcode </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.formatZip()%></h6>
+                                            </div> 
+                                            <div class="d-flex flex-column flex-lg-row col-md-2 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Phone </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.formatPhone()%></h6>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h4 class="card-title mb-0"> Group Information </h4>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Name </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getGrpName()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Type </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getGrpType()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Size </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getGrpSize()%></h6>
+                                            </div>   
+                                        </div>
+                                        <%if (regSchlPass.getGrps().get(0).getLdrs().size() >= 1) {%>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Group Leader 1 </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getLdrs().get(0).toFullOutput()%></h6>
+                                            </div>   
+                                        </div>
+                                        <%}%>
+                                        <%if (regSchlPass.getGrps().get(0).getLdrs().size() >= 2) {%>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Group Leader 2 </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getLdrs().get(1).toFullOutput()%></h6>
+                                            </div>   
+                                        </div>
+                                        <%}%>
+                                        <%if (regSchlPass.getGrps().get(0).getLdrs().size() >= 3) {%>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Group Leader 3 </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=regSchlPass.getGrps().get(0).getLdrs().get(2).toFullOutput()%></h6>
+                                            </div>   
+                                        </div>
+                                        <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Performance Title </h5>
+                                            </div> 
+                                            <div class=" d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getPerfTitle()%></h6>
+                                            </div>   
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Performance Type </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getType()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Additional Staff </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getAddlStff()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Buses </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getBus()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Equipment Trucks </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getTruck()%></h6>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Song 1 </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getSong1()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Song 2 </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getSong2()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Song 3 </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getSong3()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Song 4 </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getSong4()%></h6>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row col-md-4 grid-margin stretch-card">
+                                                <h5 class="reg-card-title-red mb-0"> Song 5 </h5>
+                                            </div>        
+                                            <div class="d-flex flex-column flex-lg-row col-md-8 grid-margin stretch-card">
+                                                <h6 class="reg-card-title-black"><%=reg.getSong5()%></h6>
+                                            </div> 
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                                <h6 class="card-title mb-0"> Pre-Performance Announcement </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                <textarea class="input" cols="100" maxlength="500" rows ="5" disabled><%=reg.getPreAnnounce()%></textarea>
+                                            </div>            
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex flex-column flex-lg-row">
+                                                <h6 class="card-title mb-0"> Post-Performance Announcement </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="card-list d-flex flex-column flex-lg-row col-md-12 grid-margin stretch-card">
+                                                <textarea class="input" cols="100" maxlength="500" rows ="5" disabled><%=reg.getPostAnnounce()%></textarea>
+                                            </div>              
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="col-md-6 grid-margin">
+                                <div class="card card-clickable">
+                                    <div class="card-body">
+                                        <form action="grpBaseCont" method="post">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Cancel">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 grid-margin">
+                                <div class="card card-clickable">
+                                    <div class="card-body">
+                                        <form action="regBaseCont" method="post">
+                                            <input type="hidden" name="act" value="ra">
+                                            <input type="submit" class="card-clickable-title card-title mb-0" value="Submit">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->

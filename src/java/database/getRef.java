@@ -68,4 +68,55 @@ public class getRef {
         }
         return returnList;
     }
+    
+    public static ArrayList<String> getPrfTyps() { //checks database for email already existing (specifically Director //returns false if user does NOT exist
+        ArrayList<String> returnList = new ArrayList<>();
+
+        Connection mySql = getConnection();
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        
+
+        try {
+            mySql.setAutoCommit(false);
+            
+            String sql = "SELECT VAL from REF_PRFTYP";
+            ps = mySql.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                returnList.add(rs.getString("VAL"));
+            }
+            mySql.commit();
+            
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable.");
+            try {
+                if (mySql != null) {
+                    mySql.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable");
+            }
+        } finally {
+
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (mySql != null) {
+                    mySql.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable.");
+            }
+        }
+        return returnList;
+    }
 }

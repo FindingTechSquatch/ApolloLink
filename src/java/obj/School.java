@@ -133,6 +133,12 @@ public class School implements Serializable{
         this.grps = grps;
     }
     
+    public String formatPhone() {
+        return "(" + this.schlPhone.substring(0, 3) + ") " + this.schlPhone.substring(3,6) + " - " + this.schlPhone.substring(6,10);
+    }
     
+    public String formatZip() {
+        return this.schlZip.substring(0,5) + "-" + this.schlZip.substring(5,9);
+    }
     
 }

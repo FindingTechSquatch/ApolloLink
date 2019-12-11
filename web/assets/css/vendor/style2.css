@@ -8688,6 +8688,8 @@ address p {
   color: #212529;
   margin: 0.38rem 0 0.75rem; }
 
+.rtl {
+    text-align: right; }
 .card-title {
   font-family: "roboto", sans-serif;
   font-weight: 500;
@@ -8696,6 +8698,28 @@ address p {
   font-size: 20px;
   text-transform: capitalize; }
   .rtl .card-title {
+    text-align: right; }
+  
+  .reg-card-title-black {
+  font-family: "roboto", sans-serif;
+  font-weight: 500;
+  color: #111111;
+  margin-bottom: 5px;
+  margin-right: 2px;
+  font-size: 20px;
+  text-transform: capitalize; }
+  .rtl .reg-card-title-black {
+    text-align: right; }
+  
+  .reg-card-title-red {
+  font-family: "roboto", sans-serif;
+  font-weight: 500;
+  color: #EE0000;
+  margin-bottom: 5px;
+  margin-right: 2px;
+  font-size: 20px;
+  text-transform: capitalize; }
+  .rtl .reg-card-title-red {
     text-align: right; }
 
 .card-subtitle {

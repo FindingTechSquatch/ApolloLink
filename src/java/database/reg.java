@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import obj.Event;
+import obj.*;
 
 /**
  *
@@ -107,6 +107,149 @@ public class reg {
         }
 
         return returnList;
+    }
+    
+    public static boolean registerForEvents(int GID, int EID, Registration reg, timeBlock t) {
+        boolean r = false;
+        
+        Connection db2 = getConnection();
+        
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            db2.setAutoCommit(false);
+
+            int temp = 0;
+            String sql = "SELECT COUNT(SCM.R_DETAIL.RID) FROM SCM.R_DETAIL JOIN SCM.X_RID_EID ON SCM.R_DETAIL.RID = SCM.X_RID_EID.RID";
+            sql += " WHERE SCM.R_DETAIL.REG_SEL_TIME_SLOT = ? AND SCM.X_RID_EID.EID = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, t.getStrt_Tme().format(f));
+            ps.setInt(2, EID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                temp += rs.getInt(1);
+            }
+            ps = null;
+            rs = null;
+            if(temp == 0) {
+                sql = "SELECT COUNT(SCM.X_RID_EID.RID) FROM SCM.X_RID_EID JOIN SCM.X_GID_RID ON SCM.X_RID_EID.RID = SCM.X_GID_RID.RID";
+                sql += " WHERE SCM.X_RID_EID.EID = ? AND SCM.X_GID_RID.GID = ?";
+                
+                ps = db2.prepareStatement(sql);
+                ps.setInt(1, EID);
+                ps.setInt(2, GID);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    temp += rs.getInt(1);
+                }
+                ps = null;
+                rs = null;
+            } 
+            if(temp == 0) {
+                sql = "INSERT INTO SCM.R_DETAIL (REG_TIME, REG_TYPE, REG_SEL_TIME_SLOT, REG_ADDL_STAFF, REG_BUSES, REG_TRUCK) VALUES ";
+                sql +="(CURRENT TIMESTAMP, ?, ?, ?, ?, ?)";
+                
+                ps = db2.prepareStatement(sql);
+                ps.setString(1, reg.getType());
+                ps.setString(2, t.getStrt_Tme().format(f));
+                ps.setString(3, reg.getAddlStff());
+                ps.setInt(4, reg.getBus());
+                ps.setInt(5, reg.getTruck());
+                ps.executeUpdate();
+                
+                ps = null;
+                rs = null;
+                
+                sql = "SELECT SCM.R_DETAIL.RID FROM SCM.R_DETAIL WHERE REG_TYPE = ? AND REG_SEL_TIME_SLOT = ? AND REG_ADDL_STAFF = ? AND REG_BUSES = ? ";
+                sql += "AND REG_TRUCK = ? ORDER BY REG_TIME FETCH FIRST 1 ROWS ONLY";
+                
+                ps = db2.prepareStatement(sql);
+                ps.setString(1, reg.getType());
+                ps.setString(2, t.getStrt_Tme().format(f));
+                ps.setString(3, reg.getAddlStff());
+                ps.setInt(4, reg.getBus());
+                ps.setInt(5, reg.getTruck());
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    reg.setRID(rs.getInt(1));
+                }
+                
+                ps = null;
+                rs = null;
+                
+                sql = "INSERT INTO SCM.R_PERFORMANCE (RID, REG_PERF_TITLE, REG_SONG1, REG_SONG2, REG_SONG3, REG_SONG4, REG_SONG5, REG_PRE_ANNOUNCE, REG_POST_ANNOUNCE) ";
+                sql += " VALUES (?, ?, ?, ?, ?, ?,?, ?, ?)";
+                
+                ps = db2.prepareStatement(sql);
+                ps.setInt(1, reg.getRID());
+                ps.setString(2, reg.getPerfTitle());
+                ps.setString(3, reg.getSong1());
+                ps.setString(4, reg.getSong2());
+                ps.setString(5, reg.getSong3());
+                ps.setString(6, reg.getSong4());
+                ps.setString(7, reg.getSong5());
+                ps.setString(8, reg.getPreAnnounce());
+                ps.setString(9, reg.getPostAnnounce());
+                ps.executeUpdate();
+                
+                ps = null;
+                rs = null;
+                
+                sql = "INSERT INTO SCM.X_GID_RID (GID, RID) VALUES (?, ?)";
+                ps = db2.prepareStatement(sql);
+                ps.setInt(1, GID);
+                ps.setInt(2, reg.getRID());
+                ps.executeUpdate();
+                
+                ps = null;
+                rs = null;
+                
+                sql = "INSERT INTO SCM.X_RID_EID (RID, EID) VALUES (?, ?)";
+                ps = db2.prepareStatement(sql);
+                ps.setInt(1,reg.getRID());
+                ps.setInt(2, EID);
+                ps.executeUpdate();
+                
+                r = true;
+            }
+
+            //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
+            db2.commit();
+            r = true;
+            //rs.close();
+            //ps.close();
+            //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            r = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+                r = false;
+            }
+        }
+        
+        return r;
     }
     
 }

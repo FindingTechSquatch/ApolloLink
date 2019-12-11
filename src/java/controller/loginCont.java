@@ -274,7 +274,7 @@ public class loginCont extends HttpServlet {
             //<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
             if (errString == null || errString.equals("")) {
                 session.setAttribute("hd1", "hidden");
-                url = "/formCont";
+                url = "/grpBaseCont";
                 //<<<<<<<<<<<<<<<< Object Creation >>>>>>>>>>>>>>>>
                 uBase frstUsr = new uBase();
                 frstUsr.setUus(us);

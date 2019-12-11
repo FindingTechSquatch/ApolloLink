@@ -75,5 +75,7 @@ public class grpLeader implements Serializable{
         this.ldrTitle = ldrTitle;
     }
     
-    
+    public String toFullOutput() {
+        return this.ldrFName + " " + this.ldrLName + ", " + this.ldrTitle;
+    }
 }
