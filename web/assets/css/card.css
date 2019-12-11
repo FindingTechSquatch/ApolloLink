@@ -99,3 +99,9 @@ th, td
 .grpLng {
     width: 40%;
 }
+
+.evtInfo
+{
+    width: 300px;
+    min-width: 50%;
+}

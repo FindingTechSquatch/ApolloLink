@@ -10,6 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.lang.Object;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import obj.*;
 
@@ -135,6 +141,181 @@ public class updtInfo {
             //rs.close();
             //ps.close();
             //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            b = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+        return b;
+    }
+
+    public static boolean updateEventInfoFromEID1(int eid, String evtNm, String evtHost, String evtTyp, LocalDateTime strtDteTme,
+                                LocalDateTime endDteTme, String blkSze) 
+    {
+        Timestamp startTime;
+        startTime = Timestamp.valueOf(strtDteTme);
+        
+        Timestamp endTime;
+        endTime = Timestamp.valueOf(endDteTme);
+        
+        Connection db2 = getConnection();
+        boolean b = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+
+            String sql = "UPDATE SCM.E_DETAIL SET EVT_NAME = ?, EVT_HOST = ?, EVT_TYPE = ?, EVT_STRT = ?, EVT_END = ?, EVT_BLCKS = ? WHERE EID = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, evtNm);
+            ps.setString(2, evtHost);
+            ps.setString(3, evtTyp);
+            ps.setTimestamp(4, startTime);
+            ps.setTimestamp(5, endTime);
+            ps.setInt(6, Integer.parseInt(blkSze));
+            ps.setInt(7, eid);
+            ps.executeUpdate();
+
+            db2.commit();
+            b = true;
+            
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            b = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+        return b;
+    }
+    
+    public static boolean updateEventInfoFromEID2(int eid, String evtLoc, String evtAddr1, String evtAddr2, String evtCity, String evtState)                    
+    {
+        Connection db2 = getConnection();
+        boolean b = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+
+            String sql = "UPDATE SCM.E_LOCATION SET EVT_LOC_TITLE = ?, EVT_ADDR1 = ?, EVT_ADDR2 = ?, EVT_CITY = ?, EVT_STATE = ? WHERE EID = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setString(1, evtLoc);
+            ps.setString(2, evtAddr1);
+            ps.setString(3, evtAddr2);
+            ps.setString(4, evtCity);
+            ps.setString(5, evtState);
+            ps.setInt(6, eid);
+            ps.executeUpdate();
+
+            db2.commit();
+            b = true;
+            
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+            b = false;
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+        return b;
+    }
+    
+    public static boolean updateEventInfoFromEID3(int eid, Date earlyStrtDte, Date earlyEndDte, Double earlyRegCst, Date regStrtDte, Date regEndDte, Double regRegCst,
+                                Date lateStrtDte, Date lateEndDte, Double lateRegCst) 
+    {
+        DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+        java.sql.Date esd = new java.sql.Date(earlyStrtDte.getTime());
+        java.sql.Date eed = new java.sql.Date(earlyEndDte.getTime());
+        java.sql.Date rsd = new java.sql.Date(regStrtDte.getTime());
+        java.sql.Date red = new java.sql.Date(regEndDte.getTime());
+        java.sql.Date lsd = new java.sql.Date(lateStrtDte.getTime());
+        java.sql.Date led = new java.sql.Date(lateEndDte.getTime());
+        
+        
+        Connection db2 = getConnection();
+        boolean b = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+
+            String sql = "UPDATE SCM.E_COST SET EVT_EARLY_STRT_DTE = ?, EVT_EARLY_END_DTE = ?, EVT_EARLY_COST = ?, EVT_REG_STRT_DTE = ?, EVT_REG_END_DTE = ?, EVT_REG_COST = ?, EVT_LATE_STRT_DTE = ?, EVT_LATE_END_DTE = ?, EVT_LATE_COST = ? WHERE EID = ?";
+            ps = db2.prepareStatement(sql);
+            ps.setDate(1, esd);
+            ps.setDate(2, eed);
+            ps.setDouble(3, earlyRegCst);
+            ps.setDate(4, rsd);
+            ps.setDate(5, red);
+            ps.setDouble(6, regRegCst);
+            ps.setDate(7, lsd);
+            ps.setDate(8, led);
+            ps.setDouble(9, lateRegCst);
+            ps.setInt(10, eid);
+            ps.executeUpdate();
+
+            db2.commit();
+            b = true;
+            
         } catch (SQLException e) {
             System.out.println("Database currently unavailable." + e);
             b = false;

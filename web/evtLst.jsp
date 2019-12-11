@@ -64,9 +64,10 @@
                                     <p class="mb-1 mt-3 font-weight-semibold"><%=evt.getfName()%> <%=evt.getlName()%></p>
                                     <p class="font-weight-light text-muted mb-0"><%=evt.getUus()%></p>
                                 </div>
-                                <a class="dropdown-item">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=usr">User Settings<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                <a class="dropdown-item" href="configBaseCont?act=schl">School Settings<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="mailto:tyler@tylerryork.com">Contact Us<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                                <a class="dropdown-item" href="logout">Sign Out<i class="dropdown-item-icon ti-location-arrow"></i></a>
                                 <!--TODO
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                                 <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
@@ -94,7 +95,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="evtNfo.jsp">
+                            <a class="nav-link" href="evtAdd.jsp" value="addEvt">
                                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                                 <span class="menu-title">Add Event</span>
                             </a>
@@ -150,11 +151,21 @@
                                             <div class="card-list d-flex flex-column flex-lg-row">
                                                 <table>
                                                     <!--update once sql statemnet is fixed-->
-                                                    <!--<% //for (School s: regSchools.get(e.getEID())) {%>
                                                     <tr>
-                                                        <td><%//=s.toString()%></td>
+                                                        <td>    
+                                                            <% if(regSchools.containsKey(e.getEID())) { %>
+                                                                <% for (School s: regSchools.get(e.getEID())) {%>
+                                                                    <% if(s.getSchlName().toString() == null) {%>
+                                                                        No Registered Schools
+                                                                    <% } else { %>
+                                                                        <%=s.getSchlName().toString()%>
+                                                                    <% }%>
+                                                                <% }%>
+                                                            <% } else { %>
+                                                                No Registered Schools
+                                                            <% }%>
+                                                        </td>
                                                     </tr>
-                                                    <%// }%>-->
                                                 </table>
                                             </div>
                                         </div>
