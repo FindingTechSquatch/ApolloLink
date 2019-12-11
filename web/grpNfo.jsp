@@ -194,7 +194,7 @@
                                             <h4 class="card-title mb-0">Group Leaders</h4>
                                             <div class="topcorner" id="edtLdrNfo">
                                             <a style="border-radius: 0px 0px 0px 4px;" id="edtLdrNfotxt">Edit</a>
-                                        </div>
+                                            </div>
                                             <div class="alert" ${hd2}>
                                             <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
                                             <ul>
