@@ -41,7 +41,7 @@ public class reg {
             sql += " FROM SCM.E_DETAIL JOIN SCM.E_LOCATION on SCM.E_DETAIL.EID = SCM.E_LOCATION.EID";
             sql += " JOIN SCM.E_COST ON SCM.E_DETAIL.EID = SCM.E_COST.EID";
             sql += " WHERE SCM.E_DETAIL.EVT_TYPE IN (SELECT GRP_TYPE FROM SCM.G_DETAIL WHERE GID = ?) AND SCM.E_DETAIL.EVT_STRT > CURRENT TIMESTAMP";
-            sql += " AND SCM.E_DETAIL.EID  IN (SELECT SCM.E_DETAIL.EID FROM SCM.E_DETAIL JOIN SCM.X_RID_EID ON SCM.E_DETAIL.EID = SCM.X_RID_EID.EID JOIN SCM.X_GID_RID ON SCM.X_RID_EID.RID = SCM.X_GID_RID.RID WHERE SCM.X_GID_RID.GID = ?)";
+            sql += " AND SCM.E_DETAIL.EID NOT IN (SELECT SCM.E_DETAIL.EID FROM SCM.E_DETAIL JOIN SCM.X_RID_EID ON SCM.E_DETAIL.EID = SCM.X_RID_EID.EID JOIN SCM.X_GID_RID ON SCM.X_RID_EID.RID = SCM.X_GID_RID.RID WHERE SCM.X_GID_RID.GID = ?)";
             sql += " AND ((CURRENT DATE BETWEEN SCM.E_COST.EVT_EARLY_STRT_DTE AND SCM.E_COST.EVT_EARLY_END_DTE) OR ";
             sql += " (CURRENT DATE BETWEEN SCM.E_COST.EVT_REG_STRT_DTE AND SCM.E_COST.EVT_REG_END_DTE) OR ";
             sql += " (CURRENT DATE BETWEEN SCM.E_COST.EVT_LATE_STRT_DTE AND SCM.E_COST.EVT_LATE_END_DTE)) ORDER BY SCM.E_DETAIL.EVT_STRT";
@@ -252,4 +252,79 @@ public class reg {
         return r;
     }
     
+    public static void throwaway () {
+        Connection db2 = getConnection();
+        
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            db2.setAutoCommit(false);
+
+            //<<<<<<<<<<<<<<<< Get All School Info >>>>>>>>>>>>>>>>
+            String sql = "INSERT INTO SCM.U_CRED (EMAIL,"; 
+            
+            ps = db2.prepareStatement(sql);
+           //ps.setInt(1, gid);
+            //ps.setInt(2, gid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Event e = new Event();
+                e.setEID(rs.getInt("EID"));
+                e.setName(rs.getString("EVT_NAME"));
+                e.setHost(rs.getString("EVT_HOST"));
+                e.setType(rs.getString("EVT_TYPE"));
+                e.setStrtDteTm(LocalDateTime.parse(rs.getString("EVT_STRT"),f));
+                e.setEndDteTm(LocalDateTime.parse(rs.getString("EVT_END"),f));
+                e.setBlckSize(rs.getInt("EVT_BLCKS"));
+                e.setLocTitle(rs.getString("EVT_LOC_TITLE"));
+                e.setAddr1(rs.getString("EVT_ADDR1"));
+                e.setAddr2(rs.getString("EVT_ADDR2"));
+                e.setCity(rs.getString("EVT_CITY"));
+                e.setState(rs.getString("EVT_STATE"));
+                e.setRegEarlyStrtDte(LocalDate.parse(rs.getString("EVT_EARLY_STRT_DTE")));
+                e.setRegEarlyEndDte(LocalDate.parse(rs.getString("EVT_EARLY_END_DTE")));
+                e.setRegRegStrtDte(LocalDate.parse(rs.getString("EVT_REG_STRT_DTE")));
+                e.setRegRegEndDte(LocalDate.parse(rs.getString("EVT_REG_END_DTE")));
+                e.setRegLtStrtDte(LocalDate.parse(rs.getString("EVT_LATE_STRT_DTE")));
+                e.setRegLtEndDte(LocalDate.parse(rs.getString("EVT_LATE_END_DTE")));
+                e.setRegEarlyCst(rs.getDouble("EVT_EARLY_COST"));
+                e.setRegRegCst(rs.getDouble("EVT_REG_COST"));
+                e.setRegLtCst(rs.getDouble("EVT_LATE_COST"));
+                //returnList.add(e);
+            }
+
+            //<<<<<<<<<<<<<<<< Final Commit for New User >>>>>>>>>>>>>>>>
+            db2.commit();
+            //rs.close();
+            //ps.close();
+            //db2.close();
+        } catch (SQLException e) {
+            System.out.println("Database currently unavailable." + e);
+
+            try {
+                if (db2 != null) {
+                    db2.rollback();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database is currently unavailable " + se);
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (db2 != null) {
+                    db2.close();
+                }
+            } catch (SQLException se) {
+                System.out.println("Database currently unavailable." + se);
+            }
+        }
+    }
 }
